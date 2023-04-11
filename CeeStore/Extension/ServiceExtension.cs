@@ -1,5 +1,14 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using CeeStore.BLL.Services;
+using CeeStore.BLL.ServicesContract;
+using CeeStore.DAL;
+using CeeStore.DAL.Entities;
+using CeeStore.DAL.Repository;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace CeeStore.Extension
 {
@@ -7,7 +16,7 @@ namespace CeeStore.Extension
     {
         public static void ConfigureIdentity(this IServiceCollection services)
         {
-            var builder = services.AddIdentity<AppUsers, IdentityRole>(opt =>
+            var builder = services.AddIdentity<AppUser, IdentityRole>(opt =>
             {
                 opt.Password.RequiredLength = 8;
                 opt.Password.RequireNonAlphanumeric = false;
@@ -16,26 +25,23 @@ namespace CeeStore.Extension
                 opt.User.RequireUniqueEmail = true;
                 opt.Password.RequireLowercase = false;
             })
-            .AddEntityFrameworkStores<ReportDbContext>()
+            .AddEntityFrameworkStores<AppDbContext>()
             .AddDefaultTokenProviders();
 
         }
 
         public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<ReportDbContext>(
+            services.AddDbContext<AppDbContext>(
                 opts => opts.UseSqlServer(configuration.GetConnectionString("DefaultConn")
             ));
         }
 
         public static void ConfigureServices(this IServiceCollection services)
         {
-            services.AddTransient<IUnitOfWork, UnitOfWork<ReportDbContext>>();
-            services.AddTransient<IAuthenticationService, AuthenticationService>();
-            services.AddTransient<IReportService, ReportService>();
-            services.AddTransient<IProductServices, ProductServices>();
-            services.AddTransient<IOrderService, OrderServices>();
-            services.AddTransient<IPaymentService, PaymentService>();
+            services.AddTransient<IUnitOfWork, UnitOfWork<AppDbContext>>();
+            //services.AddTransient<IAuthenticationService, AuthenticationService>();
+            
         }
 
         public static void ConfigureCors(this IServiceCollection services)
