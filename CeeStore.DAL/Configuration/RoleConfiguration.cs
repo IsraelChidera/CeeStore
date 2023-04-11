@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using CeeStore.DAL.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -31,5 +32,45 @@ namespace CeeStore.DAL.Configuration
                 }
             );
         }
+
+        public void Seed(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
+        {
+            if (!roleManager.RoleExistsAsync("Admin").Result)
+            {
+                var role = new IdentityRole
+                {
+                    Name = "Admin",
+                    NormalizedName = "ADMIN"
+                };
+
+                var result = roleManager.CreateAsync(role).Result;
+            }
+
+            if (!roleManager.RoleExistsAsync("Seller").Result)
+            {
+                var role = new IdentityRole
+                {
+                    Name = "Seller",
+                    NormalizedName = "SELLER"
+                };
+
+                var result = roleManager.CreateAsync(role).Result;
+            }
+
+            if (!roleManager.RoleExistsAsync("Buyer").Result)
+            {
+                var role = new IdentityRole
+                {
+                    Name = "Buyer",
+                    NormalizedName = "BUYER"
+                };
+
+                var result = roleManager.CreateAsync(role).Result;
+            }
+
+
+        }
+
+
     }
 }

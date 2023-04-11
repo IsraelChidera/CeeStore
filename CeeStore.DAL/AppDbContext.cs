@@ -2,20 +2,15 @@
 using CeeStore.DAL.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CeeStore.DAL
 {
-    public class AppDbContext:IdentityDbContext<AppUser>
+    public class AppDbContext : IdentityDbContext<AppUser>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options)
-            :base(options)
+            : base(options)
         {
-            
+
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -24,6 +19,11 @@ namespace CeeStore.DAL
             base.OnModelCreating(builder);
 
         }
+
+        public DbSet<Buyer> Buyers { get; set; }
+        public DbSet<Seller> Sellers { get; set; }
+        public DbSet<Admin> Admins { get; set; }
+        public DbSet<Product> Products { get; set; }
 
 
     }

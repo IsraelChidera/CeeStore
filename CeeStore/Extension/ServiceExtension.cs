@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using IAuthenticationService = CeeStore.BLL.ServicesContract.IAuthenticationService;
 
 namespace CeeStore.Extension
 {
@@ -33,15 +34,20 @@ namespace CeeStore.Extension
         public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<AppDbContext>(
-                opts => opts.UseSqlServer(configuration.GetConnectionString("DefaultConn")
+                opts => opts.UseSqlServer(configuration.GetConnectionString("DefaultConn"),
+                optss => optss.EnableRetryOnFailure()
             ));
         }
+
+        /*optionsBuilder.UseSqlServer(connectionString, options =>
+    options.EnableRetryOnFailure());*/
 
         public static void ConfigureServices(this IServiceCollection services)
         {
             services.AddTransient<IUnitOfWork, UnitOfWork<AppDbContext>>();
+            services.AddTransient<IAuthenticationService, BLL.Services.AuthenticationService>();
             //services.AddTransient<IAuthenticationService, AuthenticationService>();
-            
+
         }
 
         public static void ConfigureCors(this IServiceCollection services)
