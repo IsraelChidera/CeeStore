@@ -1,4 +1,5 @@
 ﻿using CeeStore.Shared;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace CeeStore.BLL.ServicesContract
 {
     public interface IAuthenticationService
     {
-        Task<string> RegisterBuyerAsync(BuyerForRegistrationDto buyerRequest);
+        Task<IdentityResult> RegisterBuyerAsync(BuyerForRegistrationDto buyerRequest);
     }
 }
