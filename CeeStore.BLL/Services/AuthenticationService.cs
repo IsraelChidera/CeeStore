@@ -46,11 +46,13 @@ namespace CeeStore.BLL.Services
 
                 var buyer = await _userManager.CreateAsync(buyerResult, buyerRequest.Password);
 
-                if (buyer.Succeeded)
+                if (!buyer.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(buyerResult, "Buyer");
+                    var registrationError = buyer.Errors.Select(x => x.Description);
+                    throw new Exception($"Unable to register a buyer \n{registrationError}");
                 }
-                
+               
+                await _userManager.AddToRoleAsync(buyerResult, "Buyer");
                 return buyer;
 
             }
@@ -59,5 +61,38 @@ namespace CeeStore.BLL.Services
                 throw new Exception(ex.Message);
             }
         }
+
+        public async Task<IdentityResult> RegisterSellerAsync(SellerForRegistrationDto sellerRequest)
+        {
+            try
+            {
+                var sellerExists = await _userManager.FindByEmailAsync(sellerRequest.Email);
+
+                if(sellerExists != null)
+                {
+                    throw new Exception("Email is already taken");
+                }
+
+                var sellerResult = _mapper.Map<AppUser>(sellerRequest);
+
+                var seller = await _userManager.CreateAsync(sellerResult, sellerRequest.Password);
+
+                if (!seller.Succeeded)
+                {
+                    var registrationError = seller.Errors.Select(x=>x.Description);
+                    throw new Exception($"Unable to register a seller \n{registrationError}");
+                }
+
+                await _userManager.AddToRoleAsync(sellerResult, "Seller");
+                return seller;
+
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
     }
 }

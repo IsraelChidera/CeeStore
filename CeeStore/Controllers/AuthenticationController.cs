@@ -23,5 +23,13 @@ namespace CeeStore.Controllers
 
             return Ok(result);
         }
+
+        [HttpPost]
+        [Route("Register-as-a-seller")]
+        public async Task<IActionResult> CreateSeller(SellerForRegistrationDto seller)
+        {
+            var result = await _authenticationService.RegisterSellerAsync(seller);
+            return Ok(result);
+        }
     }
 }

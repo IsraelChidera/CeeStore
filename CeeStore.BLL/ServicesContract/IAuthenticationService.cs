@@ -11,5 +11,7 @@ namespace CeeStore.BLL.ServicesContract
     public interface IAuthenticationService
     {
         Task<IdentityResult> RegisterBuyerAsync(BuyerForRegistrationDto buyerRequest);
+
+        Task<IdentityResult> RegisterSellerAsync(SellerForRegistrationDto sellerRequest);
     }
 }

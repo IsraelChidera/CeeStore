@@ -9,6 +9,8 @@ namespace CeeStore.BLL.MappingProfile
         public MappingProfile()
         {
             CreateMap<BuyerForRegistrationDto, AppUser>();
+            CreateMap<SellerForRegistrationDto, AppUser>();
+            CreateMap<AppUser, SellerForRegistrationDto>();
         }
     }
 }
