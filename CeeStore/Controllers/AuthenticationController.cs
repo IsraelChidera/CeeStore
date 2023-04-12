@@ -31,5 +31,14 @@ namespace CeeStore.Controllers
             var result = await _authenticationService.RegisterSellerAsync(seller);
             return Ok(result);
         }
+
+        [HttpPost]
+        [Route("Register-as-an-admin")]
+        public async Task<IActionResult> CreateAdmin(AdminForRegistrationDto admin)
+        {
+            var result = await _authenticationService.RegisterAdminAsync(admin);
+            return Ok(result);
+        }
+
     }
 }

@@ -13,5 +13,6 @@ namespace CeeStore.BLL.ServicesContract
         Task<IdentityResult> RegisterBuyerAsync(BuyerForRegistrationDto buyerRequest);
 
         Task<IdentityResult> RegisterSellerAsync(SellerForRegistrationDto sellerRequest);
+        Task<IdentityResult> RegisterAdminAsync(AdminForRegistrationDto adminRequest);
     }
 }

@@ -93,6 +93,36 @@ namespace CeeStore.BLL.Services
             }
         }
 
+        public async Task<IdentityResult> RegisterAdminAsync(AdminForRegistrationDto adminRequest)
+        {
+            try
+            {
+                var adminExists = await _userManager.FindByEmailAsync(adminRequest.Email);
+
+                if (adminExists is not null)
+                {
+                    throw new Exception("Admin email already taken");
+                }
+
+                var adminResult = _mapper.Map<AppUser>(adminRequest);
+
+                var admin = await _userManager.CreateAsync(adminResult, adminRequest.Password);
+
+                if (!admin.Succeeded)
+                {
+                    var registrationError = admin.Errors.Select(x => x.Description);
+                    throw new Exception($"Unable to register an admin \n{registrationError}");
+                }
+
+                await _userManager.AddToRoleAsync(adminResult, "Admin");
+                return admin;
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+        }
 
     }
 }
