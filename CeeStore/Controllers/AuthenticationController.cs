@@ -40,5 +40,14 @@ namespace CeeStore.Controllers
             return Ok(result);
         }
 
+        [HttpPost]
+        [Route("Login")]
+        public async Task<IActionResult> Login([FromBody] UserForAuthenticationDto user)
+        {
+            var result = await _authenticationService.ValidateUser(user);
+
+            return Ok(new {Token = await _authenticationService.CreateToken()});
+        }
+
     }
 }

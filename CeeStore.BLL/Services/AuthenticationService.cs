@@ -5,11 +5,10 @@ using CeeStore.DAL.Repository;
 using CeeStore.Shared;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace CeeStore.BLL.Services
 {
@@ -19,7 +18,7 @@ namespace CeeStore.BLL.Services
         private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
         private AppUser? _user;
-        private readonly IUnitOfWork _unitOfWork;        
+        private readonly IUnitOfWork _unitOfWork;
         private readonly ILoggerManager _logger;
 
         public AuthenticationService(IUnitOfWork unitOfWork, UserManager<AppUser> userManager, IConfiguration configuration, IMapper mapper, ILoggerManager logger)
@@ -27,7 +26,7 @@ namespace CeeStore.BLL.Services
             _userManager = userManager;
             _configuration = configuration;
             _mapper = mapper;
-            _logger = logger;            
+            _logger = logger;
         }
 
         public async Task<IdentityResult> RegisterBuyerAsync(BuyerForRegistrationDto buyerRequest)
@@ -51,12 +50,12 @@ namespace CeeStore.BLL.Services
                     var registrationError = buyer.Errors.Select(x => x.Description);
                     throw new Exception($"Unable to register a buyer \n{registrationError}");
                 }
-               
+
                 await _userManager.AddToRoleAsync(buyerResult, "Buyer");
                 return buyer;
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -68,7 +67,7 @@ namespace CeeStore.BLL.Services
             {
                 var sellerExists = await _userManager.FindByEmailAsync(sellerRequest.Email);
 
-                if(sellerExists != null)
+                if (sellerExists != null)
                 {
                     throw new Exception("Email is already taken");
                 }
@@ -79,7 +78,7 @@ namespace CeeStore.BLL.Services
 
                 if (!seller.Succeeded)
                 {
-                    var registrationError = seller.Errors.Select(x=>x.Description);
+                    var registrationError = seller.Errors.Select(x => x.Description);
                     throw new Exception($"Unable to register a seller \n{registrationError}");
                 }
 
@@ -87,7 +86,7 @@ namespace CeeStore.BLL.Services
                 return seller;
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -117,12 +116,75 @@ namespace CeeStore.BLL.Services
                 await _userManager.AddToRoleAsync(adminResult, "Admin");
                 return admin;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
 
         }
+
+        public async Task<bool> ValidateUser(UserForAuthenticationDto userLogin)
+        {
+            _logger.LogInfo("validate user and logs them in");
+
+            _user = await _userManager.FindByNameAsync(userLogin.UserName);
+            var result = (_user != null && await _userManager.CheckPasswordAsync(_user, userLogin.Password));
+
+            if (!result)
+            {
+                throw new Exception("Invalid username or password");
+            }
+
+            return result;
+        }
+
+        public async Task<string> CreateToken()
+        {
+            var signingCredentials = GetSigningCredentials();
+            var claims = await GetClaims();
+            var tokenOptions = GenerateTokenOptions(signingCredentials, claims);
+
+            return new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+        }
+
+        private SigningCredentials GetSigningCredentials()
+        {
+            var key = Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("REPORTAPISECRET") ?? "Fk24632Pz3gyJLYeYqJ6D8qELyNPUubr8vstypCgfMAC8Jyb3B");
+            var secret = new SymmetricSecurityKey(key);
+            return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
+        }
+
+        private async Task<List<Claim>> GetClaims()
+        {
+            var claims = new List<Claim>
+            {
+               new Claim(ClaimTypes.Name, _user.UserName),
+               new Claim(ClaimTypes.Role, "SuperAdmin")
+            };
+
+            var roles = await _userManager.GetRolesAsync(_user);
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
+            return claims;
+        }
+
+        private JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, List<Claim> claims)
+        {
+            var jwtSettings = _configuration.GetSection("JwtSettings");
+            var tokenOptions = new JwtSecurityToken
+            (
+            issuer: jwtSettings["validIssuer"],
+            audience: jwtSettings["validAudience"],
+            claims: claims,
+            expires: DateTime.Now.AddMinutes(Convert.ToDouble(jwtSettings["expires"])),
+            signingCredentials: signingCredentials
+            );
+            return tokenOptions;
+        }
+
+
 
     }
 }

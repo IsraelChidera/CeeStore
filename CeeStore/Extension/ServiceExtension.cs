@@ -45,8 +45,7 @@ namespace CeeStore.Extension
         public static void ConfigureServices(this IServiceCollection services)
         {
             services.AddTransient<IUnitOfWork, UnitOfWork<AppDbContext>>();
-            services.AddTransient<IAuthenticationService, BLL.Services.AuthenticationService>();
-            //services.AddTransient<IAuthenticationService, AuthenticationService>();
+            services.AddTransient<IAuthenticationService, BLL.Services.AuthenticationService>();            
 
         }
 
@@ -82,7 +81,7 @@ namespace CeeStore.Extension
             //This is going to create a system environment variable
             //setx REPORTAPISECRET "ReportAPISecretKey" /M
             var jwtSettings = config.GetSection("JwtSettings");
-            var secretKey = Environment.GetEnvironmentVariable("REPORTAPISECRET") ?? "Fk24632Pz3gyJLYeYqJ6D8qELyNPUubr8vstypCgfMAC8Jyb3B";
+            var secretKey = Environment.GetEnvironmentVariable("SECRET") ?? "Fk24632Pz3gyJLYeYqJ6D8qELyNPUubr8vstypCgfMAC8Jyb3B";
 
             services.AddAuthentication(opt =>
             {
