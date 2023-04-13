@@ -8,10 +8,15 @@ namespace CeeStore.BLL.MappingProfile
     {
         public MappingProfile()
         {
+            //
             CreateMap<BuyerForRegistrationDto, AppUser>();
             CreateMap<SellerForRegistrationDto, AppUser>();
             CreateMap<AppUser, SellerForRegistrationDto>();
             CreateMap<AdminForRegistrationDto, AppUser>();
+
+            //
+            CreateMap<CreatePrductRequestDto, Product>();
         }
     }
 }
+

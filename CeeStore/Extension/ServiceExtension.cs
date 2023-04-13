@@ -46,7 +46,7 @@ namespace CeeStore.Extension
         {
             services.AddTransient<IUnitOfWork, UnitOfWork<AppDbContext>>();
             services.AddTransient<IAuthenticationService, BLL.Services.AuthenticationService>();            
-
+            services.AddTransient<IProductService, ProductService>();
         }
 
         public static void ConfigureCors(this IServiceCollection services)
@@ -73,14 +73,14 @@ namespace CeeStore.Extension
         }
 
 
-        public static void ConfigureJWT(this IServiceCollection services, IConfiguration config)
+        public static void ConfigureJWT(this IServiceCollection services, IConfiguration configuration)
         {
             //save your secret keys in an environment variable rather than in code
             //using the statememnt below.
             //open the cmd window as an administrator
             //This is going to create a system environment variable
             //setx REPORTAPISECRET "ReportAPISecretKey" /M
-            var jwtSettings = config.GetSection("JwtSettings");
+            var jwtSettings = configuration.GetSection("JwtSettings");
             var secretKey = Environment.GetEnvironmentVariable("SECRET") ?? "Fk24632Pz3gyJLYeYqJ6D8qELyNPUubr8vstypCgfMAC8Jyb3B";
 
             services.AddAuthentication(opt =>
