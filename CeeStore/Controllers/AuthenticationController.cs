@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CeeStore.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("store/[controller]")]
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
@@ -44,9 +44,12 @@ namespace CeeStore.Controllers
         [Route("Login")]
         public async Task<IActionResult> Login([FromBody] UserForAuthenticationDto user)
         {
-            var result = await _authenticationService.ValidateUser(user);
+            var response = await _authenticationService.ValidateUser(user);
 
-            return Ok(new {Token = await _authenticationService.CreateToken()});
+            if (!response)
+                return BadRequest(response);
+
+            return Ok(new { Token = await _authenticationService.CreateToken() });
         }
 
     }

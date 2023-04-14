@@ -140,26 +140,35 @@ namespace CeeStore.BLL.Services
 
         public async Task<string> CreateToken()
         {
+
+            _logger.LogInfo("Creates the JWT token");
+
             var signingCredentials = GetSigningCredentials();
             var claims = await GetClaims();
-            var tokenOptions = GenerateTokenOptions(signingCredentials, claims);
 
+
+            var tokenOptions = GenerateTokenOptions(signingCredentials, claims);
             return new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+
         }
 
-        private SigningCredentials GetSigningCredentials()
+        private static SigningCredentials GetSigningCredentials()
         {
-            var key = Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("REPORTAPISECRET") ?? "Fk24632Pz3gyJLYeYqJ6D8qELyNPUubr8vstypCgfMAC8Jyb3B");
+            var key = Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("SECRET"));
             var secret = new SymmetricSecurityKey(key);
             return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
+
         }
 
         private async Task<List<Claim>> GetClaims()
         {
+
             var claims = new List<Claim>
             {
-               new Claim(ClaimTypes.Name, _user.UserName),
-               new Claim(ClaimTypes.Role, "SuperAdmin")
+                new Claim(JwtRegisteredClaimNames.Sub, _user.Id.ToString()),
+                new Claim(ClaimTypes.Name, _user.UserName),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(ClaimTypes.NameIdentifier, _user.Id.ToString())
             };
 
             var roles = await _userManager.GetRolesAsync(_user);
@@ -167,6 +176,7 @@ namespace CeeStore.BLL.Services
             {
                 claims.Add(new Claim(ClaimTypes.Role, role));
             }
+
             return claims;
         }
 

@@ -18,9 +18,8 @@ namespace CeeStore.Controllers
         }
 
 
-        //[Authorize(Roles = "Seller")]
-        [HttpPost]
-        [Route("create-a-product")]
+        [Authorize(Roles = "Seller")]
+        [HttpPost("create-a-product")]        
         public async Task<IActionResult> CreateProduct(CreatePrductRequestDto productRequest)
         {
             var result = await _productService.CreateProductAsync(productRequest);

@@ -32,38 +32,32 @@ namespace CeeStore.BLL.Services
 
         public async Task<string> CreateProductAsync(CreatePrductRequestDto productRequest)
         {
-            try
+
+            var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (userId == null)
             {
-                var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-                if (userId == null)
-                {
-                    throw new Exception("User not found");
-                }
-
-                var productMapped = _mapper.Map<Product>(productRequest);
-
-                var seller = await _userManager.FindByIdAsync(userId);
-                //Seller seller = await _sellerRepo.GetSingleByAsync(s => s.UserId.ToString() == userId.ToString());
-
-                if (seller == null)
-                {
-                    throw new Exception("Seller not found in database");
-                }
-
-                productMapped.SellerId = seller;
-
-                await _productRepo.AddAsync(productMapped);
-                await _unitOfWork.SaveChangesAsync();
-
-                return "Congratulations! \nYou have successfully added a new product";
-
-
+                throw new Exception("User not authenticated");
             }
-            catch (Exception ex)
+
+            var productMapped = _mapper.Map<Product>(productRequest);
+
+            var seller = await _userManager.FindByIdAsync(userId);
+            //Seller seller = await _sellerRepo.GetSingleByAsync(s => s.UserId.ToString() == userId.ToString());
+
+            if (seller == null)
             {
-                throw new Exception(ex.Message);
+                throw new Exception("Seller not found in database");
             }
+
+            productMapped.UserId = Guid.Parse(seller.Id);
+            //productMapped.SellerId = seller;
+
+            await _productRepo.AddAsync(productMapped);
+            await _unitOfWork.SaveChangesAsync();
+
+            return "Congratulations! \nYou have successfully added a new product";
+
         }
     }
 }

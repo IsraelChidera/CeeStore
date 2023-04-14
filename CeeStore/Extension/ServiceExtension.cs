@@ -3,7 +3,6 @@ using CeeStore.BLL.ServicesContract;
 using CeeStore.DAL;
 using CeeStore.DAL.Entities;
 using CeeStore.DAL.Repository;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -44,9 +43,9 @@ namespace CeeStore.Extension
 
         public static void ConfigureServices(this IServiceCollection services)
         {
-            services.AddTransient<IUnitOfWork, UnitOfWork<AppDbContext>>();
-            services.AddTransient<IAuthenticationService, BLL.Services.AuthenticationService>();            
-            services.AddTransient<IProductService, ProductService>();
+            services.AddScoped<IUnitOfWork, UnitOfWork<AppDbContext>>();
+            services.AddScoped<IAuthenticationService, BLL.Services.AuthenticationService>();
+            services.AddScoped<IProductService, ProductService>();
         }
 
         public static void ConfigureCors(this IServiceCollection services)
@@ -81,7 +80,7 @@ namespace CeeStore.Extension
             //This is going to create a system environment variable
             //setx REPORTAPISECRET "ReportAPISecretKey" /M
             var jwtSettings = configuration.GetSection("JwtSettings");
-            var secretKey = Environment.GetEnvironmentVariable("SECRET") ?? "Fk24632Pz3gyJLYeYqJ6D8qELyNPUubr8vstypCgfMAC8Jyb3B";
+            var secretKey = Environment.GetEnvironmentVariable("SECRET") ?? "YeYqJ6D8Fk24632Pz3gyJNPUubr8vstypCgfLqELyMAC8Jyb3B";
 
             services.AddAuthentication(opt =>
             {

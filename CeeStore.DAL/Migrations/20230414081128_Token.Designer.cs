@@ -4,6 +4,7 @@ using CeeStore.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CeeStore.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230414081128_Token")]
+    partial class Token
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -193,20 +195,12 @@ namespace CeeStore.DAL.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("SellerId")
+                    b.Property<Guid>("SellerId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("UserId1")
-                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ProductId");
 
                     b.HasIndex("SellerId");
-
-                    b.HasIndex("UserId1");
 
                     b.ToTable("Products");
                 });
@@ -279,22 +273,22 @@ namespace CeeStore.DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "fc03db77-3c95-4905-997a-35a6ae896e03",
-                            ConcurrencyStamp = "8e8dfb53-0416-4be6-aa4d-4162d8c6a24f",
+                            Id = "a37965ca-6b00-45e1-a3ea-dfe64986dfe4",
+                            ConcurrencyStamp = "46863e34-2cee-47a1-b0e8-f914f0a772fd",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "d6d03de8-bf1a-4362-9768-121477b26be0",
-                            ConcurrencyStamp = "70e31c11-e876-4869-b2bc-77abf8511dfd",
+                            Id = "1c727d6f-27b3-4173-891c-6eecf03d199c",
+                            ConcurrencyStamp = "bfd680c4-2769-49bf-842c-f4e2d12d711a",
                             Name = "Buyer",
                             NormalizedName = "BUYER"
                         },
                         new
                         {
-                            Id = "e8be6a89-91dd-4d87-95e5-d85b96680d84",
-                            ConcurrencyStamp = "cd355daa-de70-4a84-a611-1e602b62f603",
+                            Id = "e7427dbd-6db0-40c8-a1ba-c19efb43b237",
+                            ConcurrencyStamp = "bdfbb832-85e0-44bb-b518-f25ff688f522",
                             Name = "Seller",
                             NormalizedName = "SELLER"
                         });
@@ -426,15 +420,13 @@ namespace CeeStore.DAL.Migrations
 
             modelBuilder.Entity("CeeStore.DAL.Entities.Product", b =>
                 {
-                    b.HasOne("CeeStore.DAL.Entities.Seller", null)
+                    b.HasOne("CeeStore.DAL.Entities.Seller", "Seller")
                         .WithMany("Products")
-                        .HasForeignKey("SellerId");
+                        .HasForeignKey("SellerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("CeeStore.DAL.Entities.AppUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId1");
-
-                    b.Navigation("User");
+                    b.Navigation("Seller");
                 });
 
             modelBuilder.Entity("CeeStore.DAL.Entities.Seller", b =>
