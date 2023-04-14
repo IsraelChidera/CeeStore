@@ -59,5 +59,35 @@ namespace CeeStore.BLL.Services
             return "Congratulations! \nYou have successfully added a new product";
 
         }
+
+        public async Task<string> UpdateProductAsync(Guid productId, CreatePrductRequestDto productRequest)
+        {
+            var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
+
+            if(userId is null)
+            {
+                throw new Exception("User not found");
+            }
+
+            Product productExists = await _productRepo.GetSingleByAsync(p=>p.ProductId == productId);
+            
+            if(productExists is null)
+            {
+                throw new Exception("Product does not exist");
+            }
+
+         /*   if(productExists.UserId != userId)
+            {
+                throw new Exception("You do not have the permission to update this product");
+            }*/
+
+            var product = _mapper.Map(productRequest, productExists);
+
+            await _productRepo.UpdateAsync(product);
+            await _unitOfWork.SaveChangesAsync();
+
+            return "Product updated successfully";
+        }
+
     }
 }

@@ -1,7 +1,6 @@
 ﻿using CeeStore.BLL.ServicesContract;
 using CeeStore.Shared;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CeeStore.Controllers
@@ -19,11 +18,19 @@ namespace CeeStore.Controllers
 
 
         [Authorize(Roles = "Seller")]
-        [HttpPost("create-a-product")]        
+        [HttpPost("create-a-product")]
         public async Task<IActionResult> CreateProduct(CreatePrductRequestDto productRequest)
         {
-            var result = await _productService.CreateProductAsync(productRequest);
-            return Ok(result);
+            var response = await _productService.CreateProductAsync(productRequest);
+            return Ok(response);
+        }
+
+        [Authorize(Roles = "Seller")]
+        [HttpPost("update-a-product")]
+        public async Task<IActionResult> UpdateProduct(Guid productId, CreatePrductRequestDto productRequest)
+        {
+            var response = await _productService.UpdateProductAsync(productId, productRequest);
+            return Ok(response);
         }
 
     }
