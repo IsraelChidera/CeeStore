@@ -33,5 +33,23 @@ namespace CeeStore.Controllers
             return Ok(response);
         }
 
+        [AllowAnonymous]
+        [HttpGet("search-products")]
+        public async Task<ActionResult<List<CreatePrductRequestDto>>> GetProducts([FromQuery] SearchTermDto searchProductRequest)
+        {
+            var response = await _productService.GetProduct(searchProductRequest);
+
+            return Ok(response);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("all-products")]
+        public async Task<ActionResult<IEnumerable<CreatePrductRequestDto>>> GetAllProducts()
+        {
+            var response = await _productService.GetAllProducts();
+            return Ok(response);
+        }
+
+
     }
 }

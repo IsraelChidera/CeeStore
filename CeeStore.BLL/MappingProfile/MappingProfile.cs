@@ -15,7 +15,10 @@ namespace CeeStore.BLL.MappingProfile
             CreateMap<AdminForRegistrationDto, AppUser>();
 
             //
-            CreateMap<CreatePrductRequestDto, Product>();
+            CreateMap<CreatePrductRequestDto, Product>();            
+            CreateMap<Product, CreatePrductRequestDto>();
+            
+
         }
     }
 }

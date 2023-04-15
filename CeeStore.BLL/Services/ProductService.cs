@@ -60,6 +60,29 @@ namespace CeeStore.BLL.Services
 
         }
 
+        public async Task<IEnumerable<CreatePrductRequestDto>> GetAllProducts()
+        {
+            var allProducts = await _productRepo.GetAllAsync();
+
+            var products = _mapper.Map<List<CreatePrductRequestDto>>(allProducts);
+
+            return products;
+        }
+
+        public async Task<List<CreatePrductRequestDto>> GetProduct(SearchTermDto searchProductRequest)
+        {
+            var allProducts = await _productRepo.GetAllAsync();
+
+            if (!string.IsNullOrEmpty(searchProductRequest.Search))
+            {
+                allProducts = allProducts.Where(p => p.ProductName.Contains(searchProductRequest.Search, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+
+            var result = _mapper.Map<List<CreatePrductRequestDto>>(allProducts);
+            return result;
+
+        }
+
         public async Task<string> UpdateProductAsync(Guid productId, CreatePrductRequestDto productRequest)
         {
             var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
@@ -76,7 +99,7 @@ namespace CeeStore.BLL.Services
                 throw new Exception("Product does not exist");
             }
 
-         /*   if(productExists.UserId != userId)
+          /*  if (productExists.UserId.ToString() == userId.ToString())
             {
                 throw new Exception("You do not have the permission to update this product");
             }*/
@@ -88,6 +111,7 @@ namespace CeeStore.BLL.Services
 
             return "Product updated successfully";
         }
+
 
     }
 }
