@@ -67,5 +67,18 @@ namespace CeeStore.Controllers
             return NoContent();
         }
 
+        [Authorize(Roles = "Buyer")]
+        [HttpPost("add-to-cart")]
+        public async Task<IActionResult> AddToCart(Guid productId, int quantity)
+        {
+            var response = await _productService.AddToCartAsync(productId, quantity);
+
+            if (response)
+            {
+                return Ok(response);
+            }
+            return BadRequest("Failed to add product to cart");
+        }
+
     }
 }

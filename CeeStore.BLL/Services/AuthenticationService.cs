@@ -45,13 +45,12 @@ namespace CeeStore.BLL.Services
 
                 var buyer = await _userManager.CreateAsync(buyerResult, buyerRequest.Password);
 
-                if (!buyer.Succeeded)
+                if (buyer.Succeeded)
                 {
-                    var registrationError = buyer.Errors.Select(x => x.Description);
-                    throw new Exception($"Unable to register a buyer \n{registrationError}");
-                }
+                    await _userManager.AddToRoleAsync(buyerResult, "Buyer");
+                }                
 
-                await _userManager.AddToRoleAsync(buyerResult, "Buyer");
+                
                 return buyer;
 
             }
@@ -76,13 +75,12 @@ namespace CeeStore.BLL.Services
 
                 var seller = await _userManager.CreateAsync(sellerResult, sellerRequest.Password);
 
-                if (!seller.Succeeded)
+                if (seller.Succeeded)
                 {
-                    var registrationError = seller.Errors.Select(x => x.Description);
-                    throw new Exception($"Unable to register a seller \n{registrationError}");
+                    await _userManager.AddToRoleAsync(sellerResult, "Seller");                   
                 }
 
-                await _userManager.AddToRoleAsync(sellerResult, "Seller");
+                
                 return seller;
 
             }
@@ -107,13 +105,11 @@ namespace CeeStore.BLL.Services
 
                 var admin = await _userManager.CreateAsync(adminResult, adminRequest.Password);
 
-                if (!admin.Succeeded)
+                if (admin.Succeeded)
                 {
-                    var registrationError = admin.Errors.Select(x => x.Description);
-                    throw new Exception($"Unable to register an admin \n{registrationError}");
+                    await _userManager.AddToRoleAsync(adminResult, "Admin");                    
                 }
-
-                await _userManager.AddToRoleAsync(adminResult, "Admin");
+                
                 return admin;
             }
             catch (Exception ex)

@@ -5,6 +5,7 @@ using CeeStore.DAL.Repository;
 using CeeStore.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace CeeStore.BLL.Services
@@ -14,6 +15,8 @@ namespace CeeStore.BLL.Services
         private readonly IRepository<Product> _productRepo;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRepository<Seller> _sellerRepo;
+        private readonly IRepository<Buyer> _buyerRepo;
+        private readonly IRepository<Cart> _cartRepo;
         private readonly ILoggerManager _logger;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper _mapper;
@@ -28,6 +31,8 @@ namespace CeeStore.BLL.Services
             _httpContextAccessor = httpContextAccessor;
             _productRepo = _unitOfWork.GetRepository<Product>();
             _sellerRepo = _unitOfWork.GetRepository<Seller>();
+            _buyerRepo = _unitOfWork.GetRepository<Buyer>();
+            _cartRepo = _unitOfWork.GetRepository<Cart>();
         }
 
         public async Task<bool> AddToCartAsync(Guid productId, int quantity)
@@ -52,9 +57,34 @@ namespace CeeStore.BLL.Services
                 throw new ArgumentException("Invalid quantity");
             }
 
+            var cart = await _cartRepo.GetSingleByAsync(c => c.UserId == Guid.Parse(buyer.Id), 
+                include:i=>i.Include(c=>c.CartItems));
 
-            throw new NotImplementedException();
+            if(cart is null)
+            {
+                cart = new Cart { UserId = Guid.Parse(buyer.Id) };
+            }
 
+            if(cart.CartItems is null)
+            {
+                cart.CartItems = new List<CartItem>();
+            }
+
+            var cartItem = cart.CartItems.FirstOrDefault(c=>c.ProductId == productId);
+
+            if(cartItem is not null)
+            {
+                cartItem.Quantity += quantity;
+            }
+            cartItem = new CartItem
+            {
+                ProductId = productId,
+                Quantity = quantity
+            };
+            cart.CartItems.Add(cartItem);
+
+            await _cartRepo.UpdateAsync(cart);
+            return true;
         }
 
         public async Task<string> CreateProductAsync(CreatePrductRequestDto productRequest)
