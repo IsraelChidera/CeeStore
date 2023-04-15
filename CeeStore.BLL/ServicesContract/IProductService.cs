@@ -15,5 +15,10 @@ namespace CeeStore.BLL.ServicesContract
         Task<List<CreatePrductRequestDto>> GetProduct(SearchTermDto searchProductRequest);
 
         Task<IEnumerable<CreatePrductRequestDto>> GetAllProducts();
+
+        Task<List<ProductResponseDto>> GetSellerProduct();
+
+        Task<string> DeleteProduct(Guid productId);
+        
     }
 }

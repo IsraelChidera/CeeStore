@@ -26,7 +26,7 @@ namespace CeeStore.Controllers
         }
 
         [Authorize(Roles = "Seller")]
-        [HttpPost("update-a-product")]
+        [HttpPut("update-a-product")]
         public async Task<IActionResult> UpdateProduct(Guid productId, CreatePrductRequestDto productRequest)
         {
             var response = await _productService.UpdateProductAsync(productId, productRequest);
@@ -50,6 +50,22 @@ namespace CeeStore.Controllers
             return Ok(response);
         }
 
+        [Authorize(Roles = "Seller")]
+        [HttpGet("get-seller-products")]
+        public async Task<ActionResult<List<ProductResponseDto>>> GetSellerProducts()
+        {
+            var reponse = await _productService.GetSellerProduct();
+
+            return Ok(reponse);
+        }
+
+        [Authorize(Roles = "Seller")]
+        [HttpDelete]
+        public async Task<IActionResult> DeleteProduct(Guid productId)
+        {
+            var response = await _productService.DeleteProduct(productId);
+            return NoContent();
+        }
 
     }
 }

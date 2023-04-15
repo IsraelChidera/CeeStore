@@ -5,6 +5,7 @@ using CeeStore.DAL.Repository;
 using CeeStore.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace CeeStore.BLL.Services
@@ -42,22 +43,42 @@ namespace CeeStore.BLL.Services
 
             var productMapped = _mapper.Map<Product>(productRequest);
 
-            var seller = await _userManager.FindByIdAsync(userId);
-            //Seller seller = await _sellerRepo.GetSingleByAsync(s => s.UserId.ToString() == userId.ToString());
+            var seller = await _userManager.FindByIdAsync(userId);            
 
             if (seller == null)
             {
                 throw new Exception("Seller not found in database");
             }
 
-            productMapped.UserId = Guid.Parse(seller.Id);
-            //productMapped.SellerId = seller;
+            productMapped.UserId = Guid.Parse(seller.Id);            
 
             await _productRepo.AddAsync(productMapped);
             await _unitOfWork.SaveChangesAsync();
 
             return "Congratulations! \nYou have successfully added a new product";
 
+        }
+
+        public async Task<string> DeleteProduct(Guid productId)
+        {
+            var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if(userId is null)
+            {
+                throw new Exception("user not found");
+            }
+
+            var seller = await _userManager.FindByIdAsync(userId);            
+
+            var productExists = await _productRepo.GetSingleByAsync(p => p.ProductId == productId);
+            if(productExists is null)
+            {
+                throw new Exception("Product does not exist");
+            }
+
+            await _productRepo.DeleteAsync(productExists);
+
+            return "Product deleted successfully";
         }
 
         public async Task<IEnumerable<CreatePrductRequestDto>> GetAllProducts()
@@ -81,6 +102,29 @@ namespace CeeStore.BLL.Services
             var result = _mapper.Map<List<CreatePrductRequestDto>>(allProducts);
             return result;
 
+        }
+
+        public async Task<List<ProductResponseDto>> GetSellerProduct()
+        {
+            var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if(userId is null)
+            {
+                throw new Exception("User not found");
+            }
+
+            AppUser seller = await _userManager.FindByIdAsync(userId);
+
+            if (seller is null)
+            {
+                throw new Exception("user is not found");
+            }
+
+            var product = _productRepo.GetQueryable(p => p.UserId.ToString() == seller.Id.ToString());
+
+            var result = _mapper.Map<List<ProductResponseDto>>(product);
+
+            return result;
         }
 
         public async Task<string> UpdateProductAsync(Guid productId, CreatePrductRequestDto productRequest)
