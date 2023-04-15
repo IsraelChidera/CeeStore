@@ -5,7 +5,6 @@ using CeeStore.DAL.Repository;
 using CeeStore.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace CeeStore.BLL.Services
@@ -31,6 +30,33 @@ namespace CeeStore.BLL.Services
             _sellerRepo = _unitOfWork.GetRepository<Seller>();
         }
 
+        public async Task<bool> AddToCartAsync(Guid productId, int quantity)
+        {
+            var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var buyer = await _userManager.FindByIdAsync(userId);
+            if (buyer is null)
+            {
+                throw new Exception("Buyer not found");
+            }
+
+            var product = await _productRepo.GetByIdAsync(productId);
+
+            if (product is null)
+            {
+                throw new Exception("Product is not found");
+            }
+
+            if (quantity <= 0)
+            {
+                throw new ArgumentException("Invalid quantity");
+            }
+
+
+            throw new NotImplementedException();
+
+        }
+
         public async Task<string> CreateProductAsync(CreatePrductRequestDto productRequest)
         {
 
@@ -43,14 +69,14 @@ namespace CeeStore.BLL.Services
 
             var productMapped = _mapper.Map<Product>(productRequest);
 
-            var seller = await _userManager.FindByIdAsync(userId);            
+            var seller = await _userManager.FindByIdAsync(userId);
 
             if (seller == null)
             {
                 throw new Exception("Seller not found in database");
             }
 
-            productMapped.UserId = Guid.Parse(seller.Id);            
+            productMapped.UserId = Guid.Parse(seller.Id);
 
             await _productRepo.AddAsync(productMapped);
             await _unitOfWork.SaveChangesAsync();
@@ -59,19 +85,19 @@ namespace CeeStore.BLL.Services
 
         }
 
-        public async Task<string> DeleteProduct(Guid productId)
+        public async Task<string> DeleteProductAsync(Guid productId)
         {
             var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if(userId is null)
+            if (userId is null)
             {
                 throw new Exception("user not found");
             }
 
-            var seller = await _userManager.FindByIdAsync(userId);            
+            var seller = await _userManager.FindByIdAsync(userId);
 
             var productExists = await _productRepo.GetSingleByAsync(p => p.ProductId == productId);
-            if(productExists is null)
+            if (productExists is null)
             {
                 throw new Exception("Product does not exist");
             }
@@ -81,7 +107,7 @@ namespace CeeStore.BLL.Services
             return "Product deleted successfully";
         }
 
-        public async Task<IEnumerable<CreatePrductRequestDto>> GetAllProducts()
+        public async Task<IEnumerable<CreatePrductRequestDto>> GetAllProductsAsync()
         {
             var allProducts = await _productRepo.GetAllAsync();
 
@@ -90,7 +116,7 @@ namespace CeeStore.BLL.Services
             return products;
         }
 
-        public async Task<List<CreatePrductRequestDto>> GetProduct(SearchTermDto searchProductRequest)
+        public async Task<List<CreatePrductRequestDto>> GetProductAsync(SearchTermDto searchProductRequest)
         {
             var allProducts = await _productRepo.GetAllAsync();
 
@@ -104,11 +130,11 @@ namespace CeeStore.BLL.Services
 
         }
 
-        public async Task<List<ProductResponseDto>> GetSellerProduct()
+        public async Task<List<ProductResponseDto>> GetSellerProductAsync()
         {
             var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if(userId is null)
+            if (userId is null)
             {
                 throw new Exception("User not found");
             }
@@ -131,22 +157,22 @@ namespace CeeStore.BLL.Services
         {
             var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
 
-            if(userId is null)
+            if (userId is null)
             {
                 throw new Exception("User not found");
             }
 
-            Product productExists = await _productRepo.GetSingleByAsync(p=>p.ProductId == productId);
-            
-            if(productExists is null)
+            Product productExists = await _productRepo.GetSingleByAsync(p => p.ProductId == productId);
+
+            if (productExists is null)
             {
                 throw new Exception("Product does not exist");
             }
 
-          /*  if (productExists.UserId.ToString() == userId.ToString())
-            {
-                throw new Exception("You do not have the permission to update this product");
-            }*/
+            /*  if (productExists.UserId.ToString() == userId.ToString())
+              {
+                  throw new Exception("You do not have the permission to update this product");
+              }*/
 
             var product = _mapper.Map(productRequest, productExists);
 

@@ -37,7 +37,7 @@ namespace CeeStore.Controllers
         [HttpGet("search-products")]
         public async Task<ActionResult<List<CreatePrductRequestDto>>> GetProducts([FromQuery] SearchTermDto searchProductRequest)
         {
-            var response = await _productService.GetProduct(searchProductRequest);
+            var response = await _productService.GetProductAsync(searchProductRequest);
 
             return Ok(response);
         }
@@ -46,7 +46,7 @@ namespace CeeStore.Controllers
         [HttpGet("all-products")]
         public async Task<ActionResult<IEnumerable<CreatePrductRequestDto>>> GetAllProducts()
         {
-            var response = await _productService.GetAllProducts();
+            var response = await _productService.GetAllProductsAsync();
             return Ok(response);
         }
 
@@ -54,7 +54,7 @@ namespace CeeStore.Controllers
         [HttpGet("get-seller-products")]
         public async Task<ActionResult<List<ProductResponseDto>>> GetSellerProducts()
         {
-            var reponse = await _productService.GetSellerProduct();
+            var reponse = await _productService.GetSellerProductAsync();
 
             return Ok(reponse);
         }
@@ -63,7 +63,7 @@ namespace CeeStore.Controllers
         [HttpDelete]
         public async Task<IActionResult> DeleteProduct(Guid productId)
         {
-            var response = await _productService.DeleteProduct(productId);
+            var response = await _productService.DeleteProductAsync(productId);
             return NoContent();
         }
 

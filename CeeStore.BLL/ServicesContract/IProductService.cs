@@ -12,13 +12,15 @@ namespace CeeStore.BLL.ServicesContract
         Task<string> CreateProductAsync(CreatePrductRequestDto productRequest);
         Task<string> UpdateProductAsync(Guid productId, CreatePrductRequestDto productRequest);
 
-        Task<List<CreatePrductRequestDto>> GetProduct(SearchTermDto searchProductRequest);
+        Task<List<CreatePrductRequestDto>> GetProductAsync(SearchTermDto searchProductRequest);
 
-        Task<IEnumerable<CreatePrductRequestDto>> GetAllProducts();
+        Task<IEnumerable<CreatePrductRequestDto>> GetAllProductsAsync();
 
-        Task<List<ProductResponseDto>> GetSellerProduct();
+        Task<List<ProductResponseDto>> GetSellerProductAsync();
 
-        Task<string> DeleteProduct(Guid productId);
+        Task<string> DeleteProductAsync(Guid productId);
+
+        Task<bool> AddToCartAsync(Guid productId, int quantity);
         
     }
 }
