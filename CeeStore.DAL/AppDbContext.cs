@@ -2,6 +2,7 @@
 using CeeStore.DAL.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 
 namespace CeeStore.DAL
 {
@@ -17,6 +18,26 @@ namespace CeeStore.DAL
         {
             builder.ApplyConfiguration(new RoleConfiguration());
             base.OnModelCreating(builder);
+
+            builder.Entity<Product>(e =>
+            {
+                e.Property(p => p.Price).HasPrecision(18, 2);
+
+                builder.Entity<CartItem>()
+               .HasOne(ci => ci.Product)
+               .WithMany()
+               .HasForeignKey(ci => ci.ProductId)
+               .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            builder.Entity<CartItem>(entity =>
+            {
+                entity.HasOne(ci => ci.Product)
+                      .WithMany()
+                      .HasForeignKey(ci => ci.ProductId)
+                      .OnDelete(DeleteBehavior.Restrict);
+            });
+
 
         }
 

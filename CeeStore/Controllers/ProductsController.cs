@@ -73,7 +73,7 @@ namespace CeeStore.Controllers
         {
             var response = await _productService.AddToCartAsync(productId, quantity);
 
-            if (response)
+            if (response != null)
             {
                 return Ok(response);
             }

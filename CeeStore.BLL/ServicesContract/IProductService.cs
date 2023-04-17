@@ -20,7 +20,7 @@ namespace CeeStore.BLL.ServicesContract
 
         Task<string> DeleteProductAsync(Guid productId);
 
-        Task<bool> AddToCartAsync(Guid productId, int quantity);
+        Task<string> AddToCartAsync(Guid productId, int quantity);
         
     }
 }

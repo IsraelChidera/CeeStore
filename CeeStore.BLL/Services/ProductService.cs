@@ -35,7 +35,7 @@ namespace CeeStore.BLL.Services
             _cartRepo = _unitOfWork.GetRepository<Cart>();
         }
 
-        public async Task<bool> AddToCartAsync(Guid productId, int quantity)
+        public async Task<string> AddToCartAsync(Guid productId, int quantity)
         {
             var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
@@ -63,6 +63,7 @@ namespace CeeStore.BLL.Services
             if(cart is null)
             {
                 cart = new Cart { UserId = Guid.Parse(buyer.Id) };
+                await _cartRepo.AddAsync(cart);
             }
 
             if(cart.CartItems is null)
@@ -84,7 +85,7 @@ namespace CeeStore.BLL.Services
             cart.CartItems.Add(cartItem);
 
             await _cartRepo.UpdateAsync(cart);
-            return true;
+            return $"{product.ProductName} added to cart successfully";
         }
 
         public async Task<string> CreateProductAsync(CreatePrductRequestDto productRequest)
