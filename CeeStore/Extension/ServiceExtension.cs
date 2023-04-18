@@ -46,6 +46,8 @@ namespace CeeStore.Extension
             services.AddScoped<IUnitOfWork, UnitOfWork<AppDbContext>>();
             services.AddScoped<IAuthenticationService, BLL.Services.AuthenticationService>();
             services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IPaymentService, PaymentService>();
+            services.AddScoped<IOrderService, OrderService>();            
         }
 
         public static void ConfigureCors(this IServiceCollection services)

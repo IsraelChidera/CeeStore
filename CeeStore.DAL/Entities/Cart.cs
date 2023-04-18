@@ -9,9 +9,7 @@ namespace CeeStore.DAL.Entities
 {
     public class Cart
     {
-        public Guid CartId { get; set; }
-
-        [ForeignKey(nameof(AppUser))]
+        public Guid CartId { get; set; }       
         public Guid UserId { get; set; }
         public AppUser User { get; set; }
         public ICollection<CartItem> CartItems { get; set; }

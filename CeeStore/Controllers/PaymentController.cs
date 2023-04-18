@@ -8,13 +8,11 @@ namespace CeeStore.Controllers
     [ApiController]
     public class PaymentController : ControllerBase
     {
-        private readonly IPaymentService _paymentService;
-        private readonly ILoggerManager _logger;
+        private readonly IPaymentService _paymentService;        
 
-        public PaymentController(IPaymentService paymentService, ILoggerManager logger)
+        public PaymentController(IPaymentService paymentService)
         {
-            _paymentService = paymentService;
-            _logger = logger;
+            _paymentService = paymentService;            
         }
 
         [HttpPost("verify-payment")]

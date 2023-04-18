@@ -19,32 +19,31 @@ namespace CeeStore.BLL.Services
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IRepository<Cart> _cartRepo;
         private readonly IRepository<Orders> _ordersRepo;
-        private readonly IRepository<OrderItem> _ordersItemRepo;
-        private readonly IRepository<Product> _productRepo;
+        private readonly IRepository<OrderItem> _ordersItemRepo; 
         private readonly IMapper _mapper;
         private readonly UserManager<AppUser> _userManager;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly ILoggerManager _logger;
+        
 
         public OrderService(IConfiguration config, IHttpContextAccessor httpContextAccessor, IMapper mapper,
-            UserManager<AppUser> userManager, ILoggerManager logger, IUnitOfWork unitOfWork
+            UserManager<AppUser> userManager, IUnitOfWork unitOfWork
             )
         {
-            _config = config;
             _httpContextAccessor = httpContextAccessor;
-            _logger = logger;
-            _mapper = mapper;
             _unitOfWork = unitOfWork;
+            _userManager = userManager;
+            _config = config;                     
+            _mapper = mapper;            
             _ordersRepo = _unitOfWork.GetRepository<Orders>();
             _ordersItemRepo = _unitOfWork.GetRepository<OrderItem>();
             _cartRepo = _unitOfWork.GetRepository<Cart>();
-            _productRepo = _unitOfWork.GetRepository<Product>();
-            _userManager = userManager;
+           
+            
         }
 
-        public async Task<string> CheckoutAsync(Guid carId, ShippingMethod shippingMethod)
+        public async Task<string> CheckoutAsync(Guid cartId, ShippingMethod shippingMethod)
         {
-            var cartExists = await _cartRepo.GetSingleByAsync(ce => ce.CartId == carId,
+            var cartExists = await _cartRepo.GetSingleByAsync(ce => ce.CartId == cartId,
                 include: ci => ci.Include(c => c.CartItems)
                 .ThenInclude(c => c.Product)
                 );
@@ -95,9 +94,9 @@ namespace CeeStore.BLL.Services
                     ProductId = ci.ProductId,
                     Quantity = ci.Quantity,
                     Price = ci.Product.Price,
-                    OrderId = order.OrdersId
+                    OrdersId = order.OrdersId
                 }
-            );
+            ).ToList();
 
             await _ordersItemRepo.AddRangeAsync(orderItems);
             await _cartRepo.DeleteAsync(cartExists);

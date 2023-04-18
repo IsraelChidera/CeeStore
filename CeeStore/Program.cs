@@ -1,3 +1,5 @@
+using CeeStore.BLL.Services;
+using CeeStore.BLL.ServicesContract;
 using CeeStore.Extension;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.OpenApi.Models;
@@ -19,16 +21,10 @@ namespace CeeStore
             builder.Services.ConfigureIdentity();
             
             builder.Services.ConfigureJWT(builder.Configuration);
-            //grants super admin access to all routes
-           
-
-            //Adding content negotiation
-            /*builder.Services.AddControllers(config =>
-            {
-                config.RespectBrowserAcceptHeader = true;
-            }).AddXmlDataContractSerializerFormatters();*/
+            
 
             builder.Services.AddControllers();
+            
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(c =>
@@ -66,12 +62,7 @@ namespace CeeStore
             // Add services to the container.
             builder.Services.ConfigureServices();
             builder.Services.AddAutoMapper(Assembly.Load("CeeStore.BLL"));
-            builder.Services.AddHttpContextAccessor();
-
-            builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddHttpContextAccessor();            
 
             var app = builder.Build();
 
@@ -98,9 +89,7 @@ namespace CeeStore
             app.UseAuthentication();
             app.UseAuthorization();
 
-
             app.MapControllers();
-
 
             await app.RunAsync();
         }

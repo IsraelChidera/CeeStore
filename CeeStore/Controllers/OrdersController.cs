@@ -1,4 +1,5 @@
 ﻿using CeeStore.BLL.Services;
+using CeeStore.BLL.ServicesContract;
 using CeeStore.DAL.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -10,19 +11,19 @@ namespace CeeStore.Controllers
     [ApiController]
     public class OrdersController : ControllerBase
     {
-        private readonly OrderService _orderService;
+        private readonly IOrderService _orderService;
 
-        public OrdersController(OrderService orderService)
+        public OrdersController(IOrderService orderService)
         {
             _orderService = orderService;
         }
 
         [Authorize(Roles = "Buyer")]
         [HttpPost("cart/checkout")]        
-        public async Task<IActionResult> BuyersCheckout(Guid carId, ShippingMethod shippingMethod)
+        public async Task<IActionResult> BuyersCheckout(Guid cartId, ShippingMethod shippingMethod)
         {
-            await _orderService.CheckoutAsync(carId, shippingMethod);
-            return Ok();
+            var res = await _orderService.CheckoutAsync(cartId, shippingMethod);
+            return Ok(res);
         }
     }
 }

@@ -21,9 +21,10 @@ namespace CeeStore.BLL.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILoggerManager _logger;
 
-        public PaymentService(IConfiguration config, IMapper mapper, UserManager<AppUser> userManager, IRepository<Orders> ordersRepo,
+        public PaymentService(IConfiguration config, IMapper mapper, UserManager<AppUser> userManager,
             IUnitOfWork unitOfWork, ILoggerManager logger)
         {
+            _unitOfWork = unitOfWork;
             _config = config;
             _mapper = mapper;
             _userManager = userManager;
@@ -49,7 +50,7 @@ namespace CeeStore.BLL.Services
                 if (orderExists != null)
                 {
                     var orderItemExists = await _ordersItemRepo.GetSingleByAsync(
-                        oie => oie.OrderId == orderExists.OrdersId, include: oie => oie.Include(i => i.Product)
+                        oie => oie.OrdersId == orderExists.OrdersId, include: oie => oie.Include(i => i.Product)
                         .ThenInclude(i => i.UserId.ToString())
                     );
 

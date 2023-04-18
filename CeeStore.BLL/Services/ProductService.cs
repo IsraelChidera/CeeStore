@@ -37,55 +37,63 @@ namespace CeeStore.BLL.Services
 
         public async Task<string> AddToCartAsync(Guid productId, int quantity)
         {
-            var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            var buyer = await _userManager.FindByIdAsync(userId);
-            if (buyer is null)
+            try
             {
-                throw new Exception("Buyer not found");
+                var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                var buyer = await _userManager.FindByIdAsync(userId);
+                if (buyer is null)
+                {
+                    throw new Exception("Buyer not found");
+                }
+
+                var product = await _productRepo.GetByIdAsync(productId);
+
+                if (product is null)
+                {
+                    throw new Exception("Product is not found");
+                }
+
+                if (quantity <= 0)
+                {
+                    throw new ArgumentException("Invalid quantity");
+                }
+
+                var cart = await _cartRepo.GetSingleByAsync(c => c.UserId == Guid.Parse(buyer.Id),
+                    include: i => i.Include(c => c.CartItems));
+
+                if (cart is null)
+                {
+                    cart = new Cart { UserId = Guid.Parse(buyer.Id) };
+                    await _cartRepo.AddAsync(cart);
+                }
+
+                if (cart.CartItems is null)
+                {
+                    cart.CartItems = new List<CartItem>();
+                }
+
+                var cartItem = cart.CartItems.FirstOrDefault(c => c.ProductId == productId);
+
+                if (cartItem is not null)
+                {
+                    cartItem.Quantity += quantity;
+                }
+                cartItem = new CartItem
+                {
+                    ProductId = productId,
+                    Quantity = quantity
+                };
+                cart.CartItems.Add(cartItem);
+
+                await _cartRepo.UpdateAsync(cart);
+                return $"{product.ProductName} added to cart successfully";
             }
-
-            var product = await _productRepo.GetByIdAsync(productId);
-
-            if (product is null)
+            catch (Exception ex)
             {
-                throw new Exception("Product is not found");
+                throw new Exception(ex.Message);
+                throw new Exception(ex.Source);
             }
-
-            if (quantity <= 0)
-            {
-                throw new ArgumentException("Invalid quantity");
-            }
-
-            var cart = await _cartRepo.GetSingleByAsync(c => c.UserId == Guid.Parse(buyer.Id), 
-                include:i=>i.Include(c=>c.CartItems));
-
-            if(cart is null)
-            {
-                cart = new Cart { UserId = Guid.Parse(buyer.Id) };
-                await _cartRepo.AddAsync(cart);
-            }
-
-            if(cart.CartItems is null)
-            {
-                cart.CartItems = new List<CartItem>();
-            }
-
-            var cartItem = cart.CartItems.FirstOrDefault(c=>c.ProductId == productId);
-
-            if(cartItem is not null)
-            {
-                cartItem.Quantity += quantity;
-            }
-            cartItem = new CartItem
-            {
-                ProductId = productId,
-                Quantity = quantity
-            };
-            cart.CartItems.Add(cartItem);
-
-            await _cartRepo.UpdateAsync(cart);
-            return $"{product.ProductName} added to cart successfully";
         }
 
         public async Task<string> CreateProductAsync(CreatePrductRequestDto productRequest)

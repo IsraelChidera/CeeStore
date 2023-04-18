@@ -4,6 +4,7 @@ using CeeStore.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CeeStore.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230418143236_Fix")]
+    partial class Fix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -216,6 +218,9 @@ namespace CeeStore.DAL.Migrations
                 {
                     b.Property<Guid>("OrderItemId")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("OrderId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("OrdersId")
@@ -421,22 +426,22 @@ namespace CeeStore.DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "c71a2a76-27b6-457d-852e-dfe7ae87494c",
-                            ConcurrencyStamp = "51c6239f-b953-411f-b30e-9d5c79e6d7b2",
+                            Id = "6bb44f75-3e75-406b-9202-5621c89ba22c",
+                            ConcurrencyStamp = "2b3766e4-d292-4c8e-aba5-2a628c51b291",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "44f62b52-5bad-4248-a82c-f08f56628695",
-                            ConcurrencyStamp = "ffa1620e-efb8-4a43-9565-fe2acfb0cfd7",
+                            Id = "307cfb90-cc35-4444-accb-5b53a6b47212",
+                            ConcurrencyStamp = "78f6432b-9c76-4bd1-8c1f-b1c4a46de6d1",
                             Name = "Buyer",
                             NormalizedName = "BUYER"
                         },
                         new
                         {
-                            Id = "2c095021-0d5d-4681-9515-67d394dcb003",
-                            ConcurrencyStamp = "2eaea74e-d051-45d7-95fa-f04193276263",
+                            Id = "b395e355-79f4-473e-8084-51b7cf97d0f3",
+                            ConcurrencyStamp = "34ebca49-7794-4d1b-a0cc-c3843ba8cf36",
                             Name = "Seller",
                             NormalizedName = "SELLER"
                         });

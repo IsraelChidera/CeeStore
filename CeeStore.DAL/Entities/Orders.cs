@@ -1,6 +1,8 @@
 ﻿using CeeStore.DAL.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +11,10 @@ namespace CeeStore.DAL.Entities
 {
     public class Orders
     {
+        [Key]
         public Guid OrdersId { get; set; }
+
+        [ForeignKey(nameof(AppUser))]
         public Guid UserId { get; set; }
         public DateTime OrderDate { get; set; }
         public OrderStatus OrderStatus { get; set; }
