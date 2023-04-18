@@ -94,7 +94,7 @@ namespace CeeStore.BLL.Services
                     ProductId = ci.ProductId,
                     Quantity = ci.Quantity,
                     Price = ci.Product.Price,
-                    OrdersId = order.OrdersId
+                    OrdersId = Guid.Parse(order.OrdersId.ToString())
                 }
             ).ToList();
 
