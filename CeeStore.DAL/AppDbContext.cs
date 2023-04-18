@@ -2,7 +2,6 @@
 using CeeStore.DAL.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection.Emit;
 
 namespace CeeStore.DAL
 {
@@ -49,6 +48,7 @@ namespace CeeStore.DAL
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<Orders> Order { get; set; }
         public DbSet<OrderItem> OrderItem { get; set; }
+        public DbSet<Wallet> Wallet { get; set; }
 
     }
 }
