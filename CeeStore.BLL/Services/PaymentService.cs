@@ -7,11 +7,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using PayStack.Net;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CeeStore.BLL.Services
 {
@@ -26,7 +21,7 @@ namespace CeeStore.BLL.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILoggerManager _logger;
 
-        public PaymentService(IConfiguration config, IMapper mapper, UserManager<AppUser> userManager, IRepository<Orders> ordersRepo, 
+        public PaymentService(IConfiguration config, IMapper mapper, UserManager<AppUser> userManager, IRepository<Orders> ordersRepo,
             IUnitOfWork unitOfWork, ILoggerManager logger)
         {
             _config = config;
@@ -35,7 +30,7 @@ namespace CeeStore.BLL.Services
             _unitOfWork = unitOfWork;
             _walletRepo = _unitOfWork.GetRepository<Wallet>();
             _ordersRepo = _unitOfWork.GetRepository<Orders>();
-            _ordersItemRepo = _unitOfWork.GetRepository<OrderItem>();            
+            _ordersItemRepo = _unitOfWork.GetRepository<OrderItem>();
             _logger = logger;
         }
 
@@ -54,8 +49,8 @@ namespace CeeStore.BLL.Services
                 if (orderExists != null)
                 {
                     var orderItemExists = await _ordersItemRepo.GetSingleByAsync(
-                        oie => oie.OrderId == orderExists.OrdersId, include: oie => oie.Include(i=>i.Product)
-                        .ThenInclude(i=>i.UserId.ToString())
+                        oie => oie.OrderId == orderExists.OrdersId, include: oie => oie.Include(i => i.Product)
+                        .ThenInclude(i => i.UserId.ToString())
                     );
 
                     var sellerWallet = await _walletRepo.GetSingleByAsync(w => w.UserId == orderItemExists.Product.UserId);

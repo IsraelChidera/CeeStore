@@ -18,7 +18,7 @@ namespace CeeStore.DAL
             builder.ApplyConfiguration(new RoleConfiguration());
             base.OnModelCreating(builder);
 
-            builder.Entity<Product>(e =>
+            /*builder.Entity<Product>(e =>
             {
                 e.Property(p => p.Price).HasPrecision(18, 2);
 
@@ -35,7 +35,7 @@ namespace CeeStore.DAL
                       .WithMany()
                       .HasForeignKey(ci => ci.ProductId)
                       .OnDelete(DeleteBehavior.Restrict);
-            });
+            });*/
 
 
         }

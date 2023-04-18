@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CeeStore.DAL.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace CeeStore.BLL.ServicesContract
 {
     public interface IOrderService
     {
-        Task<string> CheckoutAsync(Guid carId);
+        Task<string> CheckoutAsync(Guid carId, ShippingMethod shippingMethod);
     }
 }
