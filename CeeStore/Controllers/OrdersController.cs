@@ -22,8 +22,8 @@ namespace CeeStore.Controllers
         [HttpPost("cart/checkout")]        
         public async Task<IActionResult> BuyersCheckout(Guid cartId, ShippingMethod shippingMethod)
         {
-            var res = await _orderService.CheckoutAsync(cartId, shippingMethod);
-            return Ok(res);
+            await _orderService.CheckoutAsync(cartId, shippingMethod);
+            return Ok();
         }
     }
 }

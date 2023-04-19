@@ -19,10 +19,14 @@ namespace CeeStore.BLL.Services
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IRepository<Cart> _cartRepo;
         private readonly IRepository<Orders> _ordersRepo;
-        private readonly IRepository<OrderItem> _ordersItemRepo; 
+        private readonly IRepository<OrderItem> _ordersItemRepo;
+        private readonly IRepository<Payment> _paymentRepo;
         private readonly IMapper _mapper;
         private readonly UserManager<AppUser> _userManager;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly string token;
+
+        private PayStackApi PayStack { get; set; }
         
 
         public OrderService(IConfiguration config, IHttpContextAccessor httpContextAccessor, IMapper mapper,
@@ -37,15 +41,16 @@ namespace CeeStore.BLL.Services
             _ordersRepo = _unitOfWork.GetRepository<Orders>();
             _ordersItemRepo = _unitOfWork.GetRepository<OrderItem>();
             _cartRepo = _unitOfWork.GetRepository<Cart>();
-           
-            
+            token = _config["Payment:PaystackTestKey"];
+            PayStack = new PayStackApi(token);
+
         }
 
         public async Task<string> CheckoutAsync(Guid cartId, ShippingMethod shippingMethod)
         {
             var cartExists = await _cartRepo.GetSingleByAsync(ce => ce.CartId == cartId,
-                include: ci => ci.Include(c => c.CartItems)
-                .ThenInclude(c => c.Product)
+                include: ci => ci.Include(c => c.CartItems) 
+                .ThenInclude(p=>p.Product)
                 );
 
             if (cartExists is null)
@@ -106,12 +111,12 @@ namespace CeeStore.BLL.Services
                 Amount = order.TotalAmount,
                 Email = buyer.Email,
                 PaymentReference = orderReference,
-                CallbackUrl = "https://localhost:5100/ceestore/Products/verifypayment"
+                CallbackUrl = "https://localhost:5100/api/Payment/verifypayment"
             };
             //map the above to a payment table
             var transaction = await MakePayment(payment);
             //or map the above to a payment entity
-            order.TransactionReference = transaction.Data.Reference;
+            order.TransactionReference = transaction.Data?.Reference;
             order.PaymentGateway = "Paystack Payment Gateway";
             order.OrderStatus = OrderStatus.PendingPayment;
 
@@ -123,24 +128,33 @@ namespace CeeStore.BLL.Services
 
         public async Task<TransactionInitializeResponse> MakePayment(PaymentRequestDto paymentRequest)
         {
-            var secretpaymentkey = _config.GetSection("Payment").GetSection("PaystackTestKey").Value;
+            //var secretpaymentkey = _config.GetSection("Payment").GetSection("PaystackTestKey").Value;
 
-            PayStackApi paystack = new(secretpaymentkey);
+            //PayStackApi paystack = new(secretpaymentkey);
 
             TransactionInitializeRequest createRequest = new()
             {
                 Email = paymentRequest.Email,
-                AmountInKobo = (int)(paymentRequest.Amount * 100),
+                AmountInKobo = (int)(paymentRequest.Amount * 100), 
                 Currency = "NGN",
-                Reference = paymentRequest.PaymentReference,
-                CallbackUrl = paymentRequest.CallbackUrl
+                Reference = paymentRequest.PaymentReference.ToString(),
+                CallbackUrl = "https://localhost:5100/api/Products/verifypayment"
             };
+            
 
-            TransactionInitializeResponse response = paystack.Transactions.Initialize(createRequest);
-            var authorizationUrl = response.Data.AuthorizationUrl;
-            _httpContextAccessor.HttpContext.Response.Redirect(authorizationUrl);
+            TransactionInitializeResponse response = PayStack.Transactions.Initialize(createRequest);
 
-            return response;
+            if (response.Status)
+            {
+               /* var authorizationUrl = response.Data?.AuthorizationUrl ?? "https://localhost:5100/api/Payment/verifypayment";
+                _httpContextAccessor.HttpContext.Response.Redirect(authorizationUrl);
+               */
+                return response;
+            }
+
+
+
+            throw new Exception("Transaction unsuccessful.\nPlease try again!");
         }
 
 

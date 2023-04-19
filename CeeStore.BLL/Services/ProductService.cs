@@ -87,6 +87,7 @@ namespace CeeStore.BLL.Services
                 cart.CartItems.Add(cartItem);
 
                 await _cartRepo.UpdateAsync(cart);
+                await _unitOfWork.SaveChangesAsync();
                 return $"{product.ProductName} added to cart successfully";
             }
             catch (Exception ex)
