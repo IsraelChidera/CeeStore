@@ -30,8 +30,11 @@ namespace CeeStore
             builder.Services.AddSwaggerGen(c =>
             {
                 //c.EnableAnnotations();
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Cee store", Version = "v1" });
-
+                //c.SwaggerDoc("v1", new OpenApiInfo { Title = "Cee store", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "WVMS API", Version = "v1" });
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
 
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                 {
