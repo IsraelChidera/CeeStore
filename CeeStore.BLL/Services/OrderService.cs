@@ -27,7 +27,7 @@ namespace CeeStore.BLL.Services
         private readonly string token;
 
         private PayStackApi PayStack { get; set; }
-        
+
 
         public OrderService(IConfiguration config, IHttpContextAccessor httpContextAccessor, IMapper mapper,
             UserManager<AppUser> userManager, IUnitOfWork unitOfWork
@@ -36,21 +36,21 @@ namespace CeeStore.BLL.Services
             _httpContextAccessor = httpContextAccessor;
             _unitOfWork = unitOfWork;
             _userManager = userManager;
-            _config = config;                     
-            _mapper = mapper;            
+            _config = config;
+            _mapper = mapper;
             _ordersRepo = _unitOfWork.GetRepository<Orders>();
             _ordersItemRepo = _unitOfWork.GetRepository<OrderItem>();
             _cartRepo = _unitOfWork.GetRepository<Cart>();
             token = _config["Payment:PaystackTestKey"];
             PayStack = new PayStackApi(token);
-
+            //delete
         }
 
         public async Task<string> CheckoutAsync(Guid cartId, ShippingMethod shippingMethod)
         {
             var cartExists = await _cartRepo.GetSingleByAsync(ce => ce.CartId == cartId,
-                include: ci => ci.Include(c => c.CartItems) 
-                .ThenInclude(p=>p.Product)
+                include: ci => ci.Include(c => c.CartItems)
+                .ThenInclude(p => p.Product)
                 );
 
             if (cartExists is null)
@@ -114,7 +114,7 @@ namespace CeeStore.BLL.Services
                 CallbackUrl = "https://localhost:5100/api/Payment/verifypayment"
             };
             //map the above to a payment table
-            var transaction = await MakePayment(payment);
+            var transaction = MakePayment(payment);
             //or map the above to a payment entity
             order.TransactionReference = transaction.Data?.Reference;
             order.PaymentGateway = "Paystack Payment Gateway";
@@ -126,29 +126,35 @@ namespace CeeStore.BLL.Services
             return $"Payment initiated for {buyer.UserName}'s order";
         }
 
-        public async Task<TransactionInitializeResponse> MakePayment(PaymentRequestDto paymentRequest)
+        public TransactionInitializeResponse MakePayment(PaymentRequestDto paymentRequest)
         {
-            //var secretpaymentkey = _config.GetSection("Payment").GetSection("PaystackTestKey").Value;
-
-            //PayStackApi paystack = new(secretpaymentkey);
 
             TransactionInitializeRequest createRequest = new()
             {
                 Email = paymentRequest.Email,
-                AmountInKobo = (int)(paymentRequest.Amount * 100), 
+                AmountInKobo = (int)paymentRequest.Amount * 100,
                 Currency = "NGN",
                 Reference = paymentRequest.PaymentReference.ToString(),
-                CallbackUrl = "https://localhost:5100/api/Products/verifypayment"
+                CallbackUrl = "https://localhost:5100/api/Payment/verifypayment"
             };
-            
+
 
             TransactionInitializeResponse response = PayStack.Transactions.Initialize(createRequest);
 
             if (response.Status)
             {
-               /* var authorizationUrl = response.Data?.AuthorizationUrl ?? "https://localhost:5100/api/Payment/verifypayment";
-                _httpContextAccessor.HttpContext.Response.Redirect(authorizationUrl);
-               */
+                /* var authorizationUrl = response.Data?.AuthorizationUrl ?? "https://localhost:5100/api/Payment/verifypayment";
+                 _httpContextAccessor.HttpContext.Response.Redirect(authorizationUrl);
+                */
+                /*var payment = new Payment()
+                {
+                    Name = paymentRequest.Email,
+                    Amount = paymentRequest.Amount,
+                    PaymentRef= paymentRequest.PaymentReference,
+                    Email= paymentRequest.Email,
+                    Status= false,
+                    UserId= new Guid(),
+                };*/
                 return response;
             }
 

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CeeStore.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230418173053_FixOrdersForeignKey3")]
-    partial class FixOrdersForeignKey3
+    [Migration("20230419214712_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -423,22 +423,22 @@ namespace CeeStore.DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "c71a2a76-27b6-457d-852e-dfe7ae87494c",
-                            ConcurrencyStamp = "51c6239f-b953-411f-b30e-9d5c79e6d7b2",
+                            Id = "dae5969b-e282-4e16-a3ef-825e839df215",
+                            ConcurrencyStamp = "14198ef4-bb62-4171-8a60-6c1b0d67705a",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "44f62b52-5bad-4248-a82c-f08f56628695",
-                            ConcurrencyStamp = "ffa1620e-efb8-4a43-9565-fe2acfb0cfd7",
+                            Id = "f18b98f0-4b17-4490-8324-1a9dbf3586f8",
+                            ConcurrencyStamp = "45bd6b2d-d6f6-4c7e-a770-708be8e9b889",
                             Name = "Buyer",
                             NormalizedName = "BUYER"
                         },
                         new
                         {
-                            Id = "2c095021-0d5d-4681-9515-67d394dcb003",
-                            ConcurrencyStamp = "2eaea74e-d051-45d7-95fa-f04193276263",
+                            Id = "bafdc289-4457-4a8f-b33f-c8de0cda3ec7",
+                            ConcurrencyStamp = "52b523f1-2859-4428-9b92-320edf13f287",
                             Name = "Seller",
                             NormalizedName = "SELLER"
                         });

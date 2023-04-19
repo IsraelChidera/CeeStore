@@ -42,7 +42,7 @@ namespace CeeStore.BLL.Services
                 var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
                 var buyer = await _userManager.FindByIdAsync(userId);
-                if (buyer is null)
+                if (buyer == null)
                 {
                     throw new Exception("Buyer not found");
                 }
@@ -75,19 +75,22 @@ namespace CeeStore.BLL.Services
 
                 var cartItem = cart.CartItems.FirstOrDefault(c => c.ProductId == productId);
 
-                if (cartItem is not null)
+                if (cartItem != null)
                 {
                     cartItem.Quantity += quantity;
                 }
-                cartItem = new CartItem
+                else
                 {
-                    ProductId = productId,
-                    Quantity = quantity
-                };
-                cart.CartItems.Add(cartItem);
+                    cartItem = new CartItem
+                    {
+                        ProductId = productId,
+                        Quantity = quantity
+                    };
+                    cart.CartItems.Add(cartItem);
+                }
 
                 await _cartRepo.UpdateAsync(cart);
-                await _unitOfWork.SaveChangesAsync();
+                //await _unitOfWork.SaveChangesAsync();
                 return $"{product.ProductName} added to cart successfully";
             }
             catch (Exception ex)
