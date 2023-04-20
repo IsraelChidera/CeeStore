@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CeeStore.Controllers
 {
-    [Route("store/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
@@ -16,7 +16,7 @@ namespace CeeStore.Controllers
         }
 
         [HttpPost]
-        [Route("Register-as-a-buyer")]
+        [Route("register-as-a-buyer")]
         public async Task<IActionResult> CreateBuyer(BuyerForRegistrationDto buyer)
         {
             var result = await _authenticationService.RegisterBuyerAsync(buyer);
@@ -25,7 +25,7 @@ namespace CeeStore.Controllers
         }
 
         [HttpPost]
-        [Route("Register-as-a-seller")]
+        [Route("register-as-a-seller")]
         public async Task<IActionResult> CreateSeller(SellerForRegistrationDto seller)
         {
             var result = await _authenticationService.RegisterSellerAsync(seller);
@@ -33,7 +33,7 @@ namespace CeeStore.Controllers
         }
 
         [HttpPost]
-        [Route("Register-as-an-admin")]
+        [Route("register-as-an-admin")]
         public async Task<IActionResult> CreateAdmin(AdminForRegistrationDto admin)
         {
             var result = await _authenticationService.RegisterAdminAsync(admin);
@@ -41,7 +41,7 @@ namespace CeeStore.Controllers
         }
 
         [HttpPost]
-        [Route("Login")]
+        [Route("login")]
         public async Task<IActionResult> Login([FromBody] UserForAuthenticationDto user)
         {
             var response = await _authenticationService.ValidateUser(user);
