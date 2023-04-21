@@ -50,6 +50,7 @@ The Ceestore Web API provides the following endpoints:
 - DELETE /api/Products/{productId}: Deletes a product by ID.
 - POST /api/orders/cart/checkout: Checkout a seller orders made on a product
 - POST /api/Payment/verify-payment: Verify payment on orders created via Paystack payment gateway
+- GET /api/Users/get-all-users: Returns a list of all users in the application
 
 
 ## Authentication and Authorization
