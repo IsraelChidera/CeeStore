@@ -99,22 +99,24 @@ namespace CeeStore
             if(!await roleManager.RoleExistsAsync("SuperAdmin"))
             {
                 await roleManager.CreateAsync(new IdentityRole("SuperAdmin"));
+
+                // Create the SuperAdmin user with the role
+                var superAdmin = new AppUser
+                {
+                    FirstName = "Admin",
+                    LastName = "Admin",
+                    UserName = "superadmin@admin.com",
+                    Email = "superadmin@admin.com"
+                };
+
+                var result = await userManager.CreateAsync(superAdmin, "Adminpass@123");
+                if (result.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(superAdmin, "SuperAdmin");
+                }
+
             }
 
-            // Create the SuperAdmin user with the role
-            var superAdmin = new AppUser
-            {
-                FirstName = "Admin",
-                LastName = "Admin",
-                UserName = "superadmin@admin.com",
-                Email = "superadmin@admin.com"
-            };
-
-            var result = await userManager.CreateAsync(superAdmin, "Adminpass@123");
-            if (result.Succeeded)
-            {
-                await userManager.AddToRoleAsync(superAdmin, "SuperAdmin");
-            }
 
             await app.RunAsync();
         }

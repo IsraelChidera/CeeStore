@@ -18,7 +18,7 @@ namespace CeeStore.Controllers
             _orderService = orderService;
         }
 
-        [Authorize(Roles = "Buyer")]
+        [Authorize(Roles = "Buyer, SuperAdmin, Admin")]
         [HttpPost("cart/checkout")]        
         public async Task<IActionResult> BuyersCheckout(Guid cartId, ShippingMethod shippingMethod)
         {

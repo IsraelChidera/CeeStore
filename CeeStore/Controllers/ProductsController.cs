@@ -17,7 +17,7 @@ namespace CeeStore.Controllers
         }
 
 
-        [Authorize(Roles = "Seller")]
+        [Authorize(Roles = "Seller, SuperAdmin, Admin")]
         [HttpPost("create-a-product")]
         public async Task<IActionResult> CreateProduct(CreatePrductRequestDto productRequest)
         {
@@ -25,7 +25,7 @@ namespace CeeStore.Controllers
             return Ok(response);
         }
 
-        [Authorize(Roles = "Seller")]
+        [Authorize(Roles = "Seller, SuperAdmin, Admin")]
         [HttpPut("update-a-product")]
         public async Task<IActionResult> UpdateProduct(Guid productId, CreatePrductRequestDto productRequest)
         {
@@ -50,7 +50,7 @@ namespace CeeStore.Controllers
             return Ok(response);
         }
 
-        [Authorize(Roles = "Seller")]
+        [Authorize(Roles = "Seller, SuperAdmin, Admin")]
         [HttpGet("get-seller-products")]
         public async Task<ActionResult<List<ProductResponseDto>>> GetSellerProducts()
         {
@@ -59,7 +59,7 @@ namespace CeeStore.Controllers
             return Ok(reponse);
         }
 
-        [Authorize(Roles = "Seller")]
+        [Authorize(Roles = "Seller, SuperAdmin, Admin")]
         [HttpDelete]
         public async Task<IActionResult> DeleteProduct(Guid productId)
         {
@@ -67,7 +67,7 @@ namespace CeeStore.Controllers
             return NoContent();
         }
 
-        [Authorize(Roles = "Buyer")]
+        [Authorize(Roles = "Buyer, SuperAdmin, Admin")]
         [HttpPost("add-to-cart")]
         public async Task<IActionResult> AddToCart(Guid productId, int quantity)
         {
