@@ -12,8 +12,7 @@ namespace CeeStore.BLL.Services
 {
     public class PaymentService : IPaymentService
     {
-        private readonly IConfiguration _config;
-        private readonly IRepository<Wallet> _walletRepo;
+        private readonly IConfiguration _config;        
         private readonly IRepository<Orders> _ordersRepo;
         private readonly IRepository<OrderItem> _ordersItemRepo;
         private readonly IMapper _mapper;
@@ -28,8 +27,7 @@ namespace CeeStore.BLL.Services
             _config = config;
             _mapper = mapper;
             _userManager = userManager;
-            _unitOfWork = unitOfWork;
-            _walletRepo = _unitOfWork.GetRepository<Wallet>();
+            _unitOfWork = unitOfWork;            
             _ordersRepo = _unitOfWork.GetRepository<Orders>();
             _ordersItemRepo = _unitOfWork.GetRepository<OrderItem>();
             _logger = logger;
@@ -37,43 +35,7 @@ namespace CeeStore.BLL.Services
 
         public async Task<string> MakePayment(string referenceCode)
         {
-            string secretpaymentkey = _config.GetSection("Payment").GetSection("PaystackTestKey").Value;
-
-            PayStackApi paystack = new(secretpaymentkey);
-
-            TransactionVerifyResponse response = paystack.Transactions.Verify(referenceCode);
-
-            if (response.Status)
-            {
-                var orderExists = await _ordersRepo.GetSingleByAsync(oe => oe.TransactionReference == referenceCode);
-
-                if (orderExists != null)
-                {
-                    var orderItemExists = await _ordersItemRepo.GetSingleByAsync(
-                        oie => oie.OrdersId == orderExists.OrdersId, 
-                        include: oie => oie.Include(i => i.Product)
-                        .ThenInclude(i => i.User)
-                    );
-
-                    var sellerWallet = await _walletRepo.GetSingleByAsync(w => w.UserId == orderItemExists.Product.UserId);
-                    if (sellerWallet != null)
-                    {
-                        sellerWallet.Balance += orderExists.TotalAmount;
-                        orderExists.OrderStatus = OrderStatus.Paid;
-
-                        await _walletRepo.UpdateAsync(sellerWallet);
-                        await _ordersRepo.UpdateAsync(orderExists);
-
-                        return "Payment made successfully";
-                    }
-
-                }
-
-
-            }
-
-            return "Unable to make payment";
-
+            throw new NotImplementedException();
 
         }
     }

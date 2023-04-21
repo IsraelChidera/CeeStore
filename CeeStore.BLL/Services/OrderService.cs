@@ -41,12 +41,13 @@ namespace CeeStore.BLL.Services
             _ordersRepo = _unitOfWork.GetRepository<Orders>();
             _ordersItemRepo = _unitOfWork.GetRepository<OrderItem>();
             _cartRepo = _unitOfWork.GetRepository<Cart>();
+            _paymentRepo = _unitOfWork.GetRepository<Payment>();
             token = _config["Payment:PaystackTestKey"];
             PayStack = new PayStackApi(token);
             //delete
         }
 
-        public async Task<string> CheckoutAsync(Guid cartId, ShippingMethod shippingMethod)
+        public async Task<TransactionInitializeResponse> CheckoutAsync(Guid cartId, ShippingMethod shippingMethod)
         {
             var cartExists = await _cartRepo.GetSingleByAsync(ce => ce.CartId == cartId,
                 include: ci => ci.Include(c => c.CartItems)
@@ -60,7 +61,7 @@ namespace CeeStore.BLL.Services
 
             if (!cartExists.CartItems.Any() || cartExists.CartItems is null)
             {
-                return "Cart is empty";
+                throw new Exception("Cart is empty");
             }
 
             var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -104,7 +105,7 @@ namespace CeeStore.BLL.Services
             ).ToList();
 
             await _ordersItemRepo.AddRangeAsync(orderItems);
-            await _cartRepo.DeleteAsync(cartExists);
+            
 
             var payment = new PaymentRequestDto
             {
@@ -115,13 +116,14 @@ namespace CeeStore.BLL.Services
             };
             //map the above to a payment table
             var transaction = MakePayment(payment);
+            await _cartRepo.DeleteAsync(cartExists);
+            var paymentmapped = _mapper.Map<Payment>(payment);
+
+            paymentmapped.UserId = Guid.Parse(buyer.Id);
+            await _paymentRepo.AddAsync(paymentmapped);
+            await _unitOfWork.SaveChangesAsync();
             //or map the above to a payment entity
-            /*var payments = new Payment()
-            {
-                Amount = payment.Amount,
-                Email= payment.Email,
-                
-            };*/
+           
             order.TransactionReference = transaction.Data?.Reference;
             order.PaymentGateway = "Paystack Payment Gateway";
             order.OrderStatus = OrderStatus.PendingPayment;
@@ -129,7 +131,7 @@ namespace CeeStore.BLL.Services
             await _ordersRepo.UpdateAsync(order);
 
 
-            return $"Payment initiated for {buyer.UserName}'s order";
+            return transaction;
         }
 
         public TransactionInitializeResponse MakePayment(PaymentRequestDto paymentRequest)

@@ -1,5 +1,7 @@
+using CeeStore.DAL.Entities;
 using CeeStore.Extension;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 
@@ -88,6 +90,31 @@ namespace CeeStore
             app.UseAuthorization();
 
             app.MapControllers();
+
+            using var scope = app.Services.CreateScope();
+            var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
+
+            //seeding a superadmin with a superadmin role
+            if(!await roleManager.RoleExistsAsync("SuperAdmin"))
+            {
+                await roleManager.CreateAsync(new IdentityRole("SuperAdmin"));
+            }
+
+            // Create the SuperAdmin user with the role
+            var superAdmin = new AppUser
+            {
+                FirstName = "Admin",
+                LastName = "Admin",
+                UserName = "superadmin@admin.com",
+                Email = "superadmin@admin.com"
+            };
+
+            var result = await userManager.CreateAsync(superAdmin, "Adminpass@123");
+            if (result.Succeeded)
+            {
+                await userManager.AddToRoleAsync(superAdmin, "SuperAdmin");
+            }
 
             await app.RunAsync();
         }

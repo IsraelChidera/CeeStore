@@ -19,6 +19,8 @@ namespace CeeStore.BLL.MappingProfile
             CreateMap<Product, CreatePrductRequestDto>();
             CreateMap<Product, ProductResponseDto>();
             
+            //
+            CreateMap<PaymentRequestDto, Payment>();
         }
     }
 }

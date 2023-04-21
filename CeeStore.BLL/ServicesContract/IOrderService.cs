@@ -1,4 +1,5 @@
 ﻿using CeeStore.DAL.Enums;
+using PayStack.Net;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace CeeStore.BLL.ServicesContract
 {
     public interface IOrderService
     {
-        Task<string> CheckoutAsync(Guid carId, ShippingMethod shippingMethod);
+        Task<TransactionInitializeResponse> CheckoutAsync(Guid carId, ShippingMethod shippingMethod);
     }
 }

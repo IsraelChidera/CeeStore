@@ -10,14 +10,10 @@ namespace CeeStore.DAL.Entities
     public class Payment
     {
         public Guid PaymentId { get; set; }
-        public string Name { get; set; }
         public decimal Amount { get; set; }
-        public string PaymentRef { get; set; }
         public string Email { get; set; }
-        public bool Status { get; set; }
-
-        [ForeignKey(nameof(AppUser))]
+        public string PaymentReference { get; set; }
+        public string CallbackUrl { get; set; }
         public Guid UserId { get; set; }
-        public AppUser User { get; set; }
     }
 }

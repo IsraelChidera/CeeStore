@@ -1,5 +1,6 @@
 ﻿using CeeStore.BLL.ServicesContract;
 using CeeStore.Shared;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,7 +33,9 @@ namespace CeeStore.Controllers
             return Ok(result);
         }
 
+       
         [HttpPost]
+        [Authorize(Roles = "SuperAdmin")]
         [Route("register-as-an-admin")]
         public async Task<IActionResult> CreateAdmin(AdminForRegistrationDto admin)
         {
