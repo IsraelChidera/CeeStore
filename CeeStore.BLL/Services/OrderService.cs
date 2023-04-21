@@ -116,6 +116,12 @@ namespace CeeStore.BLL.Services
             //map the above to a payment table
             var transaction = MakePayment(payment);
             //or map the above to a payment entity
+            /*var payments = new Payment()
+            {
+                Amount = payment.Amount,
+                Email= payment.Email,
+                
+            };*/
             order.TransactionReference = transaction.Data?.Reference;
             order.PaymentGateway = "Paystack Payment Gateway";
             order.OrderStatus = OrderStatus.PendingPayment;
@@ -143,18 +149,9 @@ namespace CeeStore.BLL.Services
 
             if (response.Status)
             {
-                /* var authorizationUrl = response.Data?.AuthorizationUrl ?? "https://localhost:5100/api/Payment/verifypayment";
-                 _httpContextAccessor.HttpContext.Response.Redirect(authorizationUrl);
-                */
-                /*var payment = new Payment()
-                {
-                    Name = paymentRequest.Email,
-                    Amount = paymentRequest.Amount,
-                    PaymentRef= paymentRequest.PaymentReference,
-                    Email= paymentRequest.Email,
-                    Status= false,
-                    UserId= new Guid(),
-                };*/
+                var authorizationUrl = response.Data?.AuthorizationUrl ?? "https://localhost:5100/api/Payment/verifypayment";
+                _httpContextAccessor.HttpContext.Response.Redirect(authorizationUrl);
+                
                 return response;
             }
 
@@ -169,7 +166,7 @@ namespace CeeStore.BLL.Services
             Random rand = new Random((int)DateTime.Now.Ticks);
             var getRandom = rand.Next(100000000, 999999999);
 
-            return $"#Cee-{getRandom}";
+            return $"Cee{getRandom}";
         }
 
         public static async Task<(decimal shippingCost, DateTime estimatedDeliveryDate)> CalculateShippingAsync(ShippingMethod shippingMethod)

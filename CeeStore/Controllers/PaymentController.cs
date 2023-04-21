@@ -16,11 +16,11 @@ namespace CeeStore.Controllers
         }
 
         [HttpPost("verify-payment")]
-        public async Task<IActionResult> VerifyPayment([FromBody] string referenceCode)
+        public async Task<IActionResult> VerifyPayment(string referenceCode)
         {
-            var response = await _paymentService.MakePayment(referenceCode);
+            await _paymentService.MakePayment(referenceCode);
 
-            return Ok(response);
+            return Ok();
         }
     }
 }

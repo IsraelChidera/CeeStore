@@ -1,5 +1,3 @@
-using CeeStore.BLL.Services;
-using CeeStore.BLL.ServicesContract;
 using CeeStore.Extension;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.OpenApi.Models;
@@ -19,19 +17,19 @@ namespace CeeStore
             builder.Services.ConfigureSqlContext(builder.Configuration);
             builder.Services.AddAuthentication();
             builder.Services.ConfigureIdentity();
-            
+
             builder.Services.ConfigureJWT(builder.Configuration);
-            
+
 
             builder.Services.AddControllers();
-            
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(c =>
             {
                 //c.EnableAnnotations();
                 //c.SwaggerDoc("v1", new OpenApiInfo { Title = "Cee store", Version = "v1" });
-               
+
 
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                 {
@@ -62,7 +60,7 @@ namespace CeeStore
             // Add services to the container.
             builder.Services.ConfigureServices();
             builder.Services.AddAutoMapper(Assembly.Load("CeeStore.BLL"));
-            builder.Services.AddHttpContextAccessor();            
+            builder.Services.AddHttpContextAccessor();
 
             var app = builder.Build();
 

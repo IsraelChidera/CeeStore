@@ -50,8 +50,9 @@ namespace CeeStore.BLL.Services
                 if (orderExists != null)
                 {
                     var orderItemExists = await _ordersItemRepo.GetSingleByAsync(
-                        oie => oie.OrdersId == orderExists.OrdersId, include: oie => oie.Include(i => i.Product)
-                        .ThenInclude(i => i.UserId.ToString())
+                        oie => oie.OrdersId == orderExists.OrdersId, 
+                        include: oie => oie.Include(i => i.Product)
+                        .ThenInclude(i => i.User)
                     );
 
                     var sellerWallet = await _walletRepo.GetSingleByAsync(w => w.UserId == orderItemExists.Product.UserId);
