@@ -25,6 +25,7 @@ namespace CeeStore.Controllers
             return Ok(response);
         }
 
+
         [Authorize(Roles = "Seller, SuperAdmin, Admin")]
         [HttpPut("update-a-product")]
         public async Task<IActionResult> UpdateProduct(Guid productId, CreatePrductRequestDto productRequest)
@@ -32,6 +33,8 @@ namespace CeeStore.Controllers
             var response = await _productService.UpdateProductAsync(productId, productRequest);
             return Ok(response);
         }
+
+
 
         [AllowAnonymous]
         [HttpGet("search-products")]
@@ -42,6 +45,8 @@ namespace CeeStore.Controllers
             return Ok(response);
         }
 
+
+
         [AllowAnonymous]
         [HttpGet("all-products")]
         public async Task<ActionResult<IEnumerable<CreatePrductRequestDto>>> GetAllProducts()
@@ -49,6 +54,8 @@ namespace CeeStore.Controllers
             var response = await _productService.GetAllProductsAsync();
             return Ok(response);
         }
+
+
 
         [Authorize(Roles = "Seller, SuperAdmin, Admin")]
         [HttpGet("get-seller-products")]
@@ -59,6 +66,8 @@ namespace CeeStore.Controllers
             return Ok(reponse);
         }
 
+
+
         [Authorize(Roles = "Seller, SuperAdmin, Admin")]
         [HttpDelete]
         public async Task<IActionResult> DeleteProduct(Guid productId)
@@ -66,6 +75,8 @@ namespace CeeStore.Controllers
             var response = await _productService.DeleteProductAsync(productId);
             return NoContent();
         }
+
+
 
         [Authorize(Roles = "Buyer, SuperAdmin, Admin")]
         [HttpPost("add-to-cart")]
@@ -79,6 +90,13 @@ namespace CeeStore.Controllers
             }
             return BadRequest("Failed to add product to cart");
         }
+
+        /*[HttpGet("search-product")]
+        [AllowAnonymous]
+        public async Task<ActionResult<List<>>> SearchProducts()
+        {
+
+        }*/
 
     }
 }
