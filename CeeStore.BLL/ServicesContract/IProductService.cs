@@ -21,6 +21,8 @@ namespace CeeStore.BLL.ServicesContract
         Task<string> DeleteProductAsync(Guid productId);
 
         Task<string> AddToCartAsync(Guid productId, int quantity);
+
+        Task<ProductResponseDto> GetProductById(Guid productId);
         
     }
 }

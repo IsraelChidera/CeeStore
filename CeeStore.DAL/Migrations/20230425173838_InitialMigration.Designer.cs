@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CeeStore.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230419214712_InitialMigration")]
+    [Migration("20230425173838_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,41 +23,6 @@ namespace CeeStore.DAL.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("CeeStore.DAL.Entities.Admin", b =>
-                {
-                    b.Property<Guid>("AdminId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("UserId1")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("AdminId");
-
-                    b.HasIndex("UserId1");
-
-                    b.ToTable("Admins");
-                });
 
             modelBuilder.Entity("CeeStore.DAL.Entities.AppUser", b =>
                 {
@@ -130,45 +95,6 @@ namespace CeeStore.DAL.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-                });
-
-            modelBuilder.Entity("CeeStore.DAL.Entities.Buyer", b =>
-                {
-                    b.Property<Guid>("BuyerId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("UserId1")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("BuyerId");
-
-                    b.HasIndex("UserId1");
-
-                    b.ToTable("Buyers");
                 });
 
             modelBuilder.Entity("CeeStore.DAL.Entities.Cart", b =>
@@ -287,6 +213,35 @@ namespace CeeStore.DAL.Migrations
                     b.ToTable("Order");
                 });
 
+            modelBuilder.Entity("CeeStore.DAL.Entities.Payment", b =>
+                {
+                    b.Property<Guid>("PaymentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("CallbackUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PaymentReference")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("PaymentId");
+
+                    b.ToTable("Payment");
+                });
+
             modelBuilder.Entity("CeeStore.DAL.Entities.Product", b =>
                 {
                     b.Property<Guid>("ProductId")
@@ -311,9 +266,6 @@ namespace CeeStore.DAL.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("SellerId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
@@ -322,76 +274,9 @@ namespace CeeStore.DAL.Migrations
 
                     b.HasKey("ProductId");
 
-                    b.HasIndex("SellerId");
-
                     b.HasIndex("UserId1");
 
                     b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("CeeStore.DAL.Entities.Seller", b =>
-                {
-                    b.Property<Guid>("SellerId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("BusinessName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("UserId1")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("SellerId");
-
-                    b.HasIndex("UserId1");
-
-                    b.ToTable("Sellers");
-                });
-
-            modelBuilder.Entity("CeeStore.DAL.Entities.Wallet", b =>
-                {
-                    b.Property<Guid>("WalletId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("Balance")
-                        .HasColumnType("decimal(38,2)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("UserId1")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("WalletId");
-
-                    b.HasIndex("UserId1");
-
-                    b.ToTable("Wallet");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -423,22 +308,22 @@ namespace CeeStore.DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "dae5969b-e282-4e16-a3ef-825e839df215",
-                            ConcurrencyStamp = "14198ef4-bb62-4171-8a60-6c1b0d67705a",
+                            Id = "0a271661-374e-4091-9e75-362d17403544",
+                            ConcurrencyStamp = "d5f76a6c-9f26-45e9-90ff-fd4131ab82de",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "f18b98f0-4b17-4490-8324-1a9dbf3586f8",
-                            ConcurrencyStamp = "45bd6b2d-d6f6-4c7e-a770-708be8e9b889",
+                            Id = "559dda52-9890-48bf-804a-3d4484ec79f7",
+                            ConcurrencyStamp = "04c35f7a-7b81-4e3f-a159-a8ea9f92d140",
                             Name = "Buyer",
                             NormalizedName = "BUYER"
                         },
                         new
                         {
-                            Id = "bafdc289-4457-4a8f-b33f-c8de0cda3ec7",
-                            ConcurrencyStamp = "52b523f1-2859-4428-9b92-320edf13f287",
+                            Id = "ae684058-ff22-4bca-8976-def3590c2df1",
+                            ConcurrencyStamp = "a95ee33d-0f28-4569-bb21-ba53640fde8b",
                             Name = "Seller",
                             NormalizedName = "SELLER"
                         });
@@ -550,24 +435,6 @@ namespace CeeStore.DAL.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("CeeStore.DAL.Entities.Admin", b =>
-                {
-                    b.HasOne("CeeStore.DAL.Entities.AppUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId1");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("CeeStore.DAL.Entities.Buyer", b =>
-                {
-                    b.HasOne("CeeStore.DAL.Entities.AppUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId1");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("CeeStore.DAL.Entities.Cart", b =>
                 {
                     b.HasOne("CeeStore.DAL.Entities.AppUser", "User")
@@ -626,33 +493,9 @@ namespace CeeStore.DAL.Migrations
 
             modelBuilder.Entity("CeeStore.DAL.Entities.Product", b =>
                 {
-                    b.HasOne("CeeStore.DAL.Entities.Seller", null)
-                        .WithMany("Products")
-                        .HasForeignKey("SellerId");
-
                     b.HasOne("CeeStore.DAL.Entities.AppUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId1");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("CeeStore.DAL.Entities.Seller", b =>
-                {
-                    b.HasOne("CeeStore.DAL.Entities.AppUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId1");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("CeeStore.DAL.Entities.Wallet", b =>
-                {
-                    b.HasOne("CeeStore.DAL.Entities.AppUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId1")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
 
                     b.Navigation("User");
                 });
@@ -716,11 +559,6 @@ namespace CeeStore.DAL.Migrations
             modelBuilder.Entity("CeeStore.DAL.Entities.Orders", b =>
                 {
                     b.Navigation("OrderItems");
-                });
-
-            modelBuilder.Entity("CeeStore.DAL.Entities.Seller", b =>
-                {
-                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

@@ -90,7 +90,15 @@ namespace CeeStore.BLL.Services
                 }
 
                 await _cartRepo.UpdateAsync(cart);
-                //await _unitOfWork.SaveChangesAsync();
+
+                product.Quantity -= quantity;
+                if(product.Quantity == 0 && product.Quantity > quantity)
+                {
+                    return $"{product.ProductName} is sold out";
+                }
+
+                await _productRepo.UpdateAsync(product);
+                
                 return $"{product.ProductName} added to cart successfully";
             }
             catch (Exception ex)
@@ -225,6 +233,18 @@ namespace CeeStore.BLL.Services
             return "Product updated successfully";
         }
 
+        public async Task<ProductResponseDto> GetProductById(Guid productId)
+        {
+            var productExists = await _productRepo.GetSingleByAsync(p => p.ProductId == productId);
 
+            if(productExists is null)
+            {
+                throw new Exception("Product not found");
+            }
+
+            var product = _mapper.Map<ProductResponseDto>(productExists);
+
+            return product;
+        }
     }
 }

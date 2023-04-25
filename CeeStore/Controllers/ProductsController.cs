@@ -78,7 +78,7 @@ namespace CeeStore.Controllers
 
 
 
-        [Authorize(Roles = "Buyer, SuperAdmin, Admin")]
+        [Authorize(Roles = "Seller, Buyer, SuperAdmin, Admin")]
         [HttpPost("add-to-cart")]
         public async Task<IActionResult> AddToCart(Guid productId, int quantity)
         {
@@ -91,12 +91,15 @@ namespace CeeStore.Controllers
             return BadRequest("Failed to add product to cart");
         }
 
-        /*[HttpGet("search-product")]
-        [AllowAnonymous]
-        public async Task<ActionResult<List<>>> SearchProducts()
-        {
 
-        }*/
+        [AllowAnonymous]
+        [HttpGet("get-a-product")]
+        public async Task<IActionResult> GetProduct(Guid productId)
+        {
+            var response = await _productService.GetProductById(productId);
+
+            return Ok(response);
+        }
 
     }
 }
