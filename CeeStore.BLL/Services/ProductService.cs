@@ -17,6 +17,7 @@ namespace CeeStore.BLL.Services
         private readonly IRepository<Seller> _sellerRepo;
         private readonly IRepository<Buyer> _buyerRepo;
         private readonly IRepository<Cart> _cartRepo;
+        private readonly IRepository<CartItem> _carItemRepo;
         private readonly ILoggerManager _logger;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper _mapper;
@@ -33,6 +34,7 @@ namespace CeeStore.BLL.Services
             _sellerRepo = _unitOfWork.GetRepository<Seller>();
             _buyerRepo = _unitOfWork.GetRepository<Buyer>();
             _cartRepo = _unitOfWork.GetRepository<Cart>();
+            _carItemRepo = _unitOfWork.GetRepository<CartItem>();
         }
 
         public async Task<string> AddToCartAsync(Guid productId, int quantity)
@@ -54,7 +56,7 @@ namespace CeeStore.BLL.Services
                     throw new Exception("Product is not found");
                 }
 
-                if (quantity <= 0)
+                if (quantity <= 0 && product.Quantity>quantity)
                 {
                     throw new ArgumentException("Invalid quantity");
                 }
@@ -94,10 +96,11 @@ namespace CeeStore.BLL.Services
                 product.Quantity -= quantity;
                 if(product.Quantity == 0 && product.Quantity > quantity)
                 {
-                    return $"{product.ProductName} is sold out";
+                    throw new Exception($"{product.ProductName} is sold out");
                 }
 
                 await _productRepo.UpdateAsync(product);
+                await _carItemRepo.UpdateAsync(cartItem);
                 
                 return $"{product.ProductName} added to cart successfully";
             }
