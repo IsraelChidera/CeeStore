@@ -306,22 +306,22 @@ namespace CeeStore.DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "0a271661-374e-4091-9e75-362d17403544",
-                            ConcurrencyStamp = "d5f76a6c-9f26-45e9-90ff-fd4131ab82de",
+                            Id = "d62c1251-c119-41bf-9801-6312a5116e16",
+                            ConcurrencyStamp = "8a4bdfe5-1ed1-4a08-837c-289407af97fc",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "559dda52-9890-48bf-804a-3d4484ec79f7",
-                            ConcurrencyStamp = "04c35f7a-7b81-4e3f-a159-a8ea9f92d140",
+                            Id = "eb8a4853-0a03-440f-ae5f-de03fa857817",
+                            ConcurrencyStamp = "fdad1ca0-b7b1-4cd6-a3fa-a996bca69623",
                             Name = "Buyer",
                             NormalizedName = "BUYER"
                         },
                         new
                         {
-                            Id = "ae684058-ff22-4bca-8976-def3590c2df1",
-                            ConcurrencyStamp = "a95ee33d-0f28-4569-bb21-ba53640fde8b",
+                            Id = "e6440e2c-28d6-4dda-9eaf-1f52d85a8ee4",
+                            ConcurrencyStamp = "ddf69937-3972-4816-92ab-26dd4a0f65d5",
                             Name = "Seller",
                             NormalizedName = "SELLER"
                         });

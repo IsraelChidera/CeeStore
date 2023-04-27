@@ -56,9 +56,14 @@ namespace CeeStore.BLL.Services
                     throw new Exception("Product is not found");
                 }
 
-                if (quantity <= 0 && product.Quantity>quantity)
+                if (quantity <= 0)
                 {
                     throw new ArgumentException("Invalid quantity");
+                }
+
+                if (quantity > product.Quantity)
+                {
+                    throw new Exception($"{product.ProductName} is sold out");
                 }
 
                 var cart = await _cartRepo.GetSingleByAsync(c => c.UserId == Guid.Parse(buyer.Id),
@@ -94,14 +99,14 @@ namespace CeeStore.BLL.Services
                 await _cartRepo.UpdateAsync(cart);
 
                 product.Quantity -= quantity;
-                if(product.Quantity == 0 && product.Quantity > quantity)
+                if (product.Quantity == 0 && product.Quantity > quantity)
                 {
                     throw new Exception($"{product.ProductName} is sold out");
                 }
 
                 await _productRepo.UpdateAsync(product);
                 await _carItemRepo.UpdateAsync(cartItem);
-                
+
                 return $"{product.ProductName} added to cart successfully";
             }
             catch (Exception ex)
@@ -240,7 +245,7 @@ namespace CeeStore.BLL.Services
         {
             var productExists = await _productRepo.GetSingleByAsync(p => p.ProductId == productId);
 
-            if(productExists is null)
+            if (productExists is null)
             {
                 throw new Exception("Product not found");
             }
