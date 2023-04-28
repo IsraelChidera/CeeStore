@@ -24,4 +24,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CeeStore.DAL\CeeStore.DAL.csproj" />
+  </ItemGroup>
+
 </Project>
