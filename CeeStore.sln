@@ -3,13 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CeeStore", "CeeStore\CeeStore.csproj", "{7967BB3B-5246-4336-9B6E-D036514A229F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CeeStore", "CeeStore\CeeStore.csproj", "{7967BB3B-5246-4336-9B6E-D036514A229F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CeeStore.DAL", "CeeStore.DAL\CeeStore.DAL.csproj", "{F06B0D64-9282-431D-BDC2-39C09049D8BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CeeStore.DAL", "CeeStore.DAL\CeeStore.DAL.csproj", "{F06B0D64-9282-431D-BDC2-39C09049D8BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CeeStore.BLL", "CeeStore.BLL\CeeStore.BLL.csproj", "{58C2DD03-7450-4E15-9C1D-331BF483F5C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CeeStore.BLL", "CeeStore.BLL\CeeStore.BLL.csproj", "{58C2DD03-7450-4E15-9C1D-331BF483F5C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CeeStore.Shared", "CeeStore.Shared\CeeStore.Shared.csproj", "{1E93798C-A770-43E6-A4FB-5085BC37894A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CeeStore.Shared", "CeeStore.Shared\CeeStore.Shared.csproj", "{1E93798C-A770-43E6-A4FB-5085BC37894A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CeeStore.BLL.Test", "CeeStore.BLL.Test\CeeStore.BLL.Test.csproj", "{7F2137C7-141A-478E-9589-EA300CAA7B46}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CeeStore.Test", "CeeStore.Test\CeeStore.Test.csproj", "{953C6FC1-DF26-45C9-8993-F1D3DDAEA811}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CeeStore.DAL.Test", "CeeStore.DAL.Test\CeeStore.DAL.Test.csproj", "{15714664-F7B3-4DC7-A887-595981EEC53D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +39,18 @@ Global
 		{1E93798C-A770-43E6-A4FB-5085BC37894A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1E93798C-A770-43E6-A4FB-5085BC37894A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1E93798C-A770-43E6-A4FB-5085BC37894A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F2137C7-141A-478E-9589-EA300CAA7B46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F2137C7-141A-478E-9589-EA300CAA7B46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F2137C7-141A-478E-9589-EA300CAA7B46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F2137C7-141A-478E-9589-EA300CAA7B46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{953C6FC1-DF26-45C9-8993-F1D3DDAEA811}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{953C6FC1-DF26-45C9-8993-F1D3DDAEA811}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{953C6FC1-DF26-45C9-8993-F1D3DDAEA811}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{953C6FC1-DF26-45C9-8993-F1D3DDAEA811}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15714664-F7B3-4DC7-A887-595981EEC53D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15714664-F7B3-4DC7-A887-595981EEC53D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15714664-F7B3-4DC7-A887-595981EEC53D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15714664-F7B3-4DC7-A887-595981EEC53D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
