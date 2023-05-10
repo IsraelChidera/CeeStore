@@ -51,6 +51,7 @@ namespace CeeStore.Test.Controllers
             Assert.IsType<OkObjectResult>(result);
             var okResult = (OkObjectResult)result;
             Assert.Equal(expectedResult, okResult.Value);
+            //Assert()
         }
 
         [Fact]

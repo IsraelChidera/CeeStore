@@ -23,6 +23,7 @@ namespace CeeStore.BLL.Services
 
         public AuthenticationService(IUnitOfWork unitOfWork, UserManager<AppUser> userManager, IConfiguration configuration, IMapper mapper, ILoggerManager logger)
         {
+            _unitOfWork = unitOfWork;
             _userManager = userManager;
             _configuration = configuration;
             _mapper = mapper;
@@ -56,7 +57,8 @@ namespace CeeStore.BLL.Services
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex.Message);
+                throw new Exception(ex.Message);                
             }
         }
 

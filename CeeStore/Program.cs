@@ -1,3 +1,4 @@
+using CeeStore.BLL.ServicesContract;
 using CeeStore.DAL.Entities;
 using CeeStore.Extension;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -30,7 +31,7 @@ namespace CeeStore
             builder.Services.AddSwaggerGen(c =>
             {
                 //c.EnableAnnotations();
-                //c.SwaggerDoc("v1", new OpenApiInfo { Title = "Cee store", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Cee store", Version = "v1" });
 
 
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
@@ -65,6 +66,9 @@ namespace CeeStore
             builder.Services.AddHttpContextAccessor();
 
             var app = builder.Build();
+
+            var logger = app.Services.GetRequiredService<ILoggerManager>();
+            app.ConfigureExceptionHandler(logger);
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

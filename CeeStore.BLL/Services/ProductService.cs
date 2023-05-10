@@ -41,6 +41,7 @@ namespace CeeStore.BLL.Services
         {
             try
             {
+                _logger.LogInfo("Cart services");
                 var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
                 var buyer = await _userManager.FindByIdAsync(userId);
