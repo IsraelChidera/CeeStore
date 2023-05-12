@@ -21,4 +21,8 @@
     <ProjectReference Include="..\CeeStore.BLL\CeeStore.BLL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="UploadedFiles\" />
+  </ItemGroup>
+
 </Project>

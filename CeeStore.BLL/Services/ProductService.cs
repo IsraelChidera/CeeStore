@@ -6,6 +6,7 @@ using CeeStore.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Net.Http.Headers;
 using System.Security.Claims;
 
 namespace CeeStore.BLL.Services
@@ -127,7 +128,38 @@ namespace CeeStore.BLL.Services
                 throw new Exception("User not authenticated");
             }
 
-            var productMapped = _mapper.Map<Product>(productRequest);
+            var file = productRequest.ImageFile;
+
+            if(file == null || file.Length == 0)
+            {
+                throw new NotImplementedException("No file has been uploaded");
+            }
+
+            string path = "";
+            if(file.Length > 0)
+            {
+                path = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "UploadedFiles"));
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+                using (var fileStream = new FileStream(Path.Combine(path, file.FileName), FileMode.Create))
+                {
+                    await file.CopyToAsync(fileStream);
+                }
+            }
+
+
+            //var productMapped = _mapper.Map<Product>(productRequest);
+            var productMapped = new Product()
+            {
+                ProductName = productRequest.ProductName,
+                Description = productRequest.Description,
+                Price = productRequest.Price,
+                Quantity = productRequest.Quantity,
+                BrandName = productRequest.BrandName,
+                ProductImage = path + $"/{file.FileName}"
+            };
 
             var seller = await _userManager.FindByIdAsync(userId);
 

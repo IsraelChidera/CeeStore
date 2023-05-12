@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -16,9 +17,7 @@ namespace CeeStore.DAL.Entities
         public int Quantity { get; set; }
         public string BrandName { get; set; }
 
-        /*[ForeignKey(nameof(Seller))]
-        public Guid SellerId { get; set; }
-        public Seller Seller { get; set;}*/
+        public string? ProductImage { get; set; }       
 
         [ForeignKey(nameof(AppUser))]
         public Guid UserId { get; set; }

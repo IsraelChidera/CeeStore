@@ -1,8 +1,10 @@
 using CeeStore.BLL.ServicesContract;
 using CeeStore.DAL.Entities;
 using CeeStore.Extension;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 
@@ -22,6 +24,12 @@ namespace CeeStore
             builder.Services.ConfigureIdentity();
 
             builder.Services.ConfigureJWT(builder.Configuration);
+            builder.Services.Configure<FormOptions>(o =>
+            {
+                o.ValueLengthLimit = int.MaxValue;
+                o.MultipartBodyLengthLimit = int.MaxValue;
+                o.MemoryBufferThreshold = int.MaxValue;
+            });
 
 
             builder.Services.AddControllers();
@@ -61,6 +69,10 @@ namespace CeeStore
                 });
             });
             // Add services to the container.
+            builder.Services.Configure<FormOptions>(options =>
+            {
+                options.MultipartBodyLengthLimit = 104857600; // 100 MB
+            });
             builder.Services.ConfigureServices();
             builder.Services.AddAutoMapper(Assembly.Load("CeeStore.BLL"));
             builder.Services.AddHttpContextAccessor();
@@ -89,6 +101,13 @@ namespace CeeStore
             });
 
             app.UseCors("CorsPolicy");
+
+            app.UseStaticFiles();
+/*            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources")),
+                RequestPath = new PathString("/Resources")
+            });*/
 
             app.UseAuthentication();
             app.UseAuthorization();

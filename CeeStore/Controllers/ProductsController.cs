@@ -19,7 +19,7 @@ namespace CeeStore.Controllers
 
         [Authorize(Roles = "Seller, SuperAdmin, Admin")]
         [HttpPost("create-a-product")]
-        public async Task<IActionResult> CreateProduct(CreatePrductRequestDto productRequest)
+        public async Task<IActionResult> CreateProduct([FromForm]CreatePrductRequestDto productRequest)
         {
             var response = await _productService.CreateProductAsync(productRequest);
             return Ok(response);
