@@ -23,9 +23,11 @@ namespace CeeStore.BLL.Services
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper _mapper;
         private readonly UserManager<AppUser> _userManager;
+        private readonly IFileService _fileService;
 
-        public ProductService(UserManager<AppUser> userManager, IHttpContextAccessor httpContextAccessor, ILoggerManager logger, IMapper mapper, IUnitOfWork unitOfWork)
+        public ProductService(UserManager<AppUser> userManager, IFileService fileService, IHttpContextAccessor httpContextAccessor, ILoggerManager logger, IMapper mapper, IUnitOfWork unitOfWork)
         {
+            _fileService = fileService;
             _userManager = userManager;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
@@ -128,15 +130,16 @@ namespace CeeStore.BLL.Services
                 throw new Exception("User not authenticated");
             }
 
-            var file = productRequest.ImageFile;
+            //var file = productRequest.ImageFile;
+            var file =  _fileService.UploadImage(productRequest.ImageFile);
 
-            if(file == null || file.Length == 0)
+            /*if (file == null || file.Length == 0)
             {
                 throw new NotImplementedException("No file has been uploaded");
             }
 
             string path = "";
-            if(file.Length > 0)
+            if (file.Length > 0)
             {
                 path = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "UploadedFiles"));
                 if (!Directory.Exists(path))
@@ -147,7 +150,7 @@ namespace CeeStore.BLL.Services
                 {
                     await file.CopyToAsync(fileStream);
                 }
-            }
+            }*/
 
 
             //var productMapped = _mapper.Map<Product>(productRequest);
@@ -158,7 +161,8 @@ namespace CeeStore.BLL.Services
                 Price = productRequest.Price,
                 Quantity = productRequest.Quantity,
                 BrandName = productRequest.BrandName,
-                ProductImage = path + $"/{file.FileName}"
+                //ProductImage = path + $"/{file.FileName}"
+                ProductImage = file.Result
             };
 
             var seller = await _userManager.FindByIdAsync(userId);

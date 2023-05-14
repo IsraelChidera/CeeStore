@@ -11,9 +11,34 @@ namespace CeeStore.BLL.Services
     public class FileService : IFileService
     {
         
-        public string SaveImage(IFormFile imageFile)
+        
+
+        public async Task<string> UploadImage(IFormFile imageFile)
         {
-            throw new NotImplementedException();
+            var file = imageFile;
+
+            if (file == null || file.Length == 0)
+            {
+                throw new NotImplementedException("No file has been uploaded");
+            }
+
+            string path = "";
+            if (file.Length > 0)
+            {
+                path = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "UploadedFiles"));
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+                using (var fileStream = new FileStream(Path.Combine(path, file.FileName), FileMode.Create))
+                {
+                    
+                    await file.CopyToAsync(fileStream);
+                }
+            }
+
+            return path;
+
         }
     }
 }

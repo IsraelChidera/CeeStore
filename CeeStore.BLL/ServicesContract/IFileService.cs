@@ -9,6 +9,6 @@ namespace CeeStore.BLL.ServicesContract
 {
     public interface IFileService
     {
-        public string SaveImage(IFormFile imageFile);
+        Task<string> UploadImage(IFormFile imageFile);
     }
 }
