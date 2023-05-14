@@ -28,7 +28,7 @@ namespace CeeStore.Controllers
 
         [Authorize(Roles = "Seller, SuperAdmin, Admin")]
         [HttpPut("update-a-product")]
-        public async Task<IActionResult> UpdateProduct(Guid productId, CreatePrductRequestDto productRequest)
+        public async Task<IActionResult> UpdateProduct(Guid productId, [FromForm]CreatePrductRequestDto productRequest)
         {
             var response = await _productService.UpdateProductAsync(productId, productRequest);
             return Ok(response);

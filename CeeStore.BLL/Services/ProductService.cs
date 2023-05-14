@@ -130,38 +130,17 @@ namespace CeeStore.BLL.Services
                 throw new Exception("User not authenticated");
             }
 
-            //var file = productRequest.ImageFile;
-            var file =  _fileService.UploadImage(productRequest.ImageFile);
+            
+            var file =  _fileService.UploadImage(productRequest.ImageFile);            
 
-            /*if (file == null || file.Length == 0)
-            {
-                throw new NotImplementedException("No file has been uploaded");
-            }
-
-            string path = "";
-            if (file.Length > 0)
-            {
-                path = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "UploadedFiles"));
-                if (!Directory.Exists(path))
-                {
-                    Directory.CreateDirectory(path);
-                }
-                using (var fileStream = new FileStream(Path.Combine(path, file.FileName), FileMode.Create))
-                {
-                    await file.CopyToAsync(fileStream);
-                }
-            }*/
-
-
-            //var productMapped = _mapper.Map<Product>(productRequest);
+            
             var productMapped = new Product()
             {
                 ProductName = productRequest.ProductName,
                 Description = productRequest.Description,
                 Price = productRequest.Price,
                 Quantity = productRequest.Quantity,
-                BrandName = productRequest.BrandName,
-                //ProductImage = path + $"/{file.FileName}"
+                BrandName = productRequest.BrandName,                
                 ProductImage = file.Result
             };
 
@@ -264,13 +243,11 @@ namespace CeeStore.BLL.Services
             {
                 throw new Exception("Product does not exist");
             }
-
-            /*  if (productExists.UserId.ToString() == userId.ToString())
-              {
-                  throw new Exception("You do not have the permission to update this product");
-              }*/
-
+    
             var product = _mapper.Map(productRequest, productExists);
+            var file = _fileService.UploadImage(productRequest.ImageFile);
+
+            product.ProductImage = file.Result;
 
             await _productRepo.UpdateAsync(product);
             await _unitOfWork.SaveChangesAsync();
