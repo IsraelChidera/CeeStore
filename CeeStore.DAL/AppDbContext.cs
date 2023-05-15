@@ -16,6 +16,7 @@ namespace CeeStore.DAL
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfiguration(new RoleConfiguration());
+            builder.ApplyConfiguration(new ProductConfiguration());
             base.OnModelCreating(builder);           
 
         }
