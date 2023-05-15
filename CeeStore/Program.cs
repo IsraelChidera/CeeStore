@@ -126,13 +126,14 @@ namespace CeeStore
                 // Create the SuperAdmin user with the role
                 var superAdmin = new AppUser
                 {
+                    Id = "06dd95bf-2c94-4e3d-8424-57d912f135d7",
                     FirstName = "Admin",
                     LastName = "Admin",
                     UserName = "superadmin@admin.com",
                     Email = "superadmin@admin.com"
                 };
 
-                var result = await userManager.CreateAsync(superAdmin, "Adminpass@123");
+                var result = await userManager.CreateAsync(superAdmin, "SuperAdminPass@123");
                 if (result.Succeeded)
                 {
                     await userManager.AddToRoleAsync(superAdmin, "SuperAdmin");

@@ -10,5 +10,6 @@ namespace CeeStore.BLL.ServicesContract
     public interface IFileService
     {
         Task<string> UploadImage(IFormFile imageFile);
+        bool DeleteImage(string imageFile);
     }
 }

@@ -245,8 +245,10 @@ namespace CeeStore.BLL.Services
             }
     
             var product = _mapper.Map(productRequest, productExists);
-            var file = _fileService.UploadImage(productRequest.ImageFile);
 
+            _fileService.DeleteImage(productExists.ProductImage);
+            var file = _fileService.UploadImage(productRequest.ImageFile);
+            
             product.ProductImage = file.Result;
 
             await _productRepo.UpdateAsync(product);
