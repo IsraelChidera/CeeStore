@@ -50,22 +50,122 @@ namespace CeeStore.DAL.Configuration
                 new Product()
                 {
                     ProductId = new Guid("c3e3c66c-c1d6-46f9-a725-9f24049652fd"),
-                    ProductName = "LV Beenie",
-                    Description = "Loius Vuitton Beenie (red, yellow, black)",
-                    Price = 25000,
-                    Quantity = 20,
-                    BrandName = "LV",
+                    ProductName = "Electric Iron",
+                    Description = "Dry Electric Iron - DII255",
+                    Price = 5800,
+                    Quantity = 10,
+                    BrandName = "DII255",
                     ProductImage = "",
                     UserId = new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7")
                 },
                 new Product()
                 {
                     ProductId = new Guid("c3e3c66c-c1d6-46f9-a725-9f24049652fd"),
-                    ProductName = "LV Beenie",
+                    ProductName = "Plain Tshirt",
+                    Description = "Legends are born in March premium class T-shirt",
+                    Price = 5000,
+                    Quantity = 10,
+                    BrandName = "Xcrux",
+                    ProductImage = "",
+                    UserId = new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7")
+                },
+                new Product()
+                {
+                    ProductId = new Guid("c3e3c66c-c1d6-46f9-a725-9f24049652fd"),
+                    ProductName = "Plain Men's T-shirts Combo of 3",
                     Description = "Loius Vuitton Beenie (red, yellow, black)",
-                    Price = 25000,
-                    Quantity = 20,
-                    BrandName = "LV",
+                    Price = 6500,
+                    Quantity = 10,
+                    BrandName = "Grey Tshirt Store",
+                    ProductImage = "",
+                    UserId = new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7")
+                },
+                new Product()
+                {
+                    ProductId = new Guid("c3e3c66c-c1d6-46f9-a725-9f24049652fd"),
+                    ProductName = "Nivea Perfect & Radiant",
+                    Description = "NIVEA Perfect & Radiant 3 In 1 Face Cleanser " +
+                    "For Women - 150ml",
+                    Price = 15000,
+                    Quantity = 10,
+                    BrandName = "Nivea",
+                    ProductImage = "",
+                    UserId = new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7")
+                },
+                new Product()
+                {
+                    ProductId = new Guid("c3e3c66c-c1d6-46f9-a725-9f24049652fd"),
+                    ProductName = "Jameson Black",
+                    Description = "Jameson Black Barrel 7",
+                    Price = 16085,
+                    Quantity = 10,
+                    BrandName = "Jameson Black",
+                    ProductImage = "",
+                    UserId = new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7")
+                },
+                new Product()
+                {
+                    ProductId = new Guid("c3e3c66c-c1d6-46f9-a725-9f24049652fd"),
+                    ProductName = "Coca-cola",
+                    Description = "Coca-cola Drink - 50cl P",
+                    Price = 1900,
+                    Quantity = 10,
+                    BrandName = "Coca-cola",
+                    ProductImage = "",
+                    UserId = new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7")
+                },
+                new Product()
+                {
+                    ProductId = new Guid("c3e3c66c-c1d6-46f9-a725-9f24049652fd"),
+                    ProductName = "Absolut Vodka",
+                    Description = "Absolut Vodka Vanilla 1L",
+                    Price = 6000,
+                    Quantity = 5,
+                    BrandName = "Absolut",
+                    ProductImage = "",
+                    UserId = new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7")
+                },
+                new Product()
+                {
+                    ProductId = new Guid("c3e3c66c-c1d6-46f9-a725-9f24049652fd"),
+                    ProductName = "Maltina Classic",
+                    Description = "Maltina Classic Can 33CL",
+                    Price = 5400,
+                    Quantity = 24,
+                    BrandName = "Maltina",
+                    ProductImage = "",
+                    UserId = new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7")
+                },
+                new Product()
+                {
+                    ProductId = new Guid("c3e3c66c-c1d6-46f9-a725-9f24049652fd"),
+                    ProductName = "Harpic Cleaner",
+                    Description = "Harpic Toilet Cleaner: M",
+                    Price = 1800,
+                    Quantity = 14,
+                    BrandName = "Harpic",
+                    ProductImage = "",
+                    UserId = new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7")
+                },
+                new Product()
+                {
+                    ProductId = new Guid("c3e3c66c-c1d6-46f9-a725-9f24049652fd"),
+                    ProductName = "Monster drink",
+                    Description = "Monster Can Green 44cl",
+                    Price = 11000,
+                    Quantity = 14,
+                    BrandName = "Monster",
+                    ProductImage = "",
+                    UserId = new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7")
+                },
+                new Product()
+                {
+                    ProductId = new Guid("c3e3c66c-c1d6-46f9-a725-9f24049652fd"),
+                    ProductName = "Jameson Whiskey",
+                    Description = "Jameson Irish Whiskey",
+                    Price = 10500,
+                    Quantity = 10,
+                    BrandName = "Jameson",
                     ProductImage = "",
                     UserId = new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7")
                 }

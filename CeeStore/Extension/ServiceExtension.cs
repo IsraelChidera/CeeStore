@@ -1,11 +1,13 @@
-﻿using CeeStore.BLL.Services;
+﻿using CeeStore.BLL;
+using CeeStore.BLL.Services;
 using CeeStore.BLL.ServicesContract;
 using CeeStore.DAL;
 using CeeStore.DAL.Entities;
 using CeeStore.DAL.Repository;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using IAuthenticationService = CeeStore.BLL.ServicesContract.IAuthenticationService;
@@ -41,14 +43,16 @@ namespace CeeStore.Extension
         /*optionsBuilder.UseSqlServer(connectionString, options =>
     options.EnableRetryOnFailure());*/
 
-        public static void ConfigureServices(this IServiceCollection services)
+        public static void ConfigureServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped<IUnitOfWork, UnitOfWork<AppDbContext>>();
             services.AddScoped<IAuthenticationService, BLL.Services.AuthenticationService>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IPaymentService, PaymentService>();
             services.AddScoped<IOrderService, OrderService>();    
-            services.AddScoped<IFileService, FileService>();    
+            services.AddScoped<IFileService, FileService>();
+            services.Configure<CloudinarySettings>(configuration.GetSection("CloudinarySettings"));
+            services.AddTransient<ICloudinaryService, CloudinaryService>();
         }
 
         public static void ConfigureCors(this IServiceCollection services)

@@ -73,7 +73,7 @@ namespace CeeStore
             {
                 options.MultipartBodyLengthLimit = 104857600; // 100 MB
             });
-            builder.Services.ConfigureServices();
+            builder.Services.ConfigureServices(builder.Configuration);
             builder.Services.AddAutoMapper(Assembly.Load("CeeStore.BLL"));
             builder.Services.AddHttpContextAccessor();
 
