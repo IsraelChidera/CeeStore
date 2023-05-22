@@ -3,10 +3,11 @@ using CeeStore.BLL.ServicesContract;
 using CeeStore.DAL.Entities;
 using CeeStore.DAL.Repository;
 using CeeStore.Shared;
+using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Net.Http.Headers;
 using System.Security.Claims;
 
 namespace CeeStore.BLL.Services
@@ -24,9 +25,11 @@ namespace CeeStore.BLL.Services
         private readonly IMapper _mapper;
         private readonly UserManager<AppUser> _userManager;
         private readonly IFileService _fileService;
+        private readonly ICloudinaryService _cloudinaryService;
 
-        public ProductService(UserManager<AppUser> userManager, IFileService fileService, IHttpContextAccessor httpContextAccessor, ILoggerManager logger, IMapper mapper, IUnitOfWork unitOfWork)
+        public ProductService(UserManager<AppUser> userManager, ICloudinaryService cloudinaryService, IFileService fileService, IHttpContextAccessor httpContextAccessor, ILoggerManager logger, IMapper mapper, IUnitOfWork unitOfWork)
         {
+            _cloudinaryService = cloudinaryService;
             _fileService = fileService;
             _userManager = userManager;
             _unitOfWork = unitOfWork;
@@ -130,18 +133,30 @@ namespace CeeStore.BLL.Services
                 throw new Exception("User not authenticated");
             }
 
-            
-            var file =  _fileService.UploadImage(productRequest.ImageFile);            
+            if (productRequest.ImageFile == null || productRequest.ImageFile.Length == 0)
+            {
+                throw new Exception("No file uploaded");
+            }
 
-            
+            var uploadParams = new ImageUploadParams
+            {
+                File = new FileDescription(productRequest.ImageFile.FileName, productRequest.ImageFile.OpenReadStream()),
+                Transformation = new Transformation().Crop("limit").Width(1000).Height(1000)
+            };
+
+            var result = _cloudinaryService.UploadImage(uploadParams);
+
+            //var file =  _fileService.UploadImage(productRequest.ImageFile);            
+
+
             var productMapped = new Product()
             {
                 ProductName = productRequest.ProductName,
                 Description = productRequest.Description,
                 Price = productRequest.Price,
                 Quantity = productRequest.Quantity,
-                BrandName = productRequest.BrandName,                
-                ProductImage = file.Result
+                BrandName = productRequest.BrandName,
+                ProductImage = result.Url.ToString()
             };
 
             var seller = await _userManager.FindByIdAsync(userId);
@@ -243,12 +258,12 @@ namespace CeeStore.BLL.Services
             {
                 throw new Exception("Product does not exist");
             }
-    
+
             var product = _mapper.Map(productRequest, productExists);
 
             _fileService.DeleteImage(productExists.ProductImage);
             var file = _fileService.UploadImage(productRequest.ImageFile);
-            
+
             product.ProductImage = file.Result;
 
             await _productRepo.UpdateAsync(product);

@@ -22,7 +22,7 @@ namespace CeeStore.DAL.Configuration
                     Price = 12500,
                     Quantity = 10,
                     BrandName = "Xivex Wears",
-                    ProductImage = "",
+                    ProductImage = "https://res.cloudinary.com/dcphruz6h/image/upload/v1684749344/cld-sample-5.jpg",
                     UserId= new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7")
                 },
                 new Product()
@@ -33,7 +33,7 @@ namespace CeeStore.DAL.Configuration
                     Price = 8500,
                     Quantity = 8,
                     BrandName = "Glover Sport Wears",
-                    ProductImage = "",
+                    ProductImage = "https://res.cloudinary.com/dcphruz6h/image/upload/v1684749344/cld-sample-5.jpg",
                     UserId = new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7")
                 },
                 new Product()
@@ -44,129 +44,151 @@ namespace CeeStore.DAL.Configuration
                     Price = 14500,
                     Quantity = 5,
                     BrandName = "X-G",
-                    ProductImage = "",
+                    ProductImage = "https://res.cloudinary.com/dcphruz6h/image/upload/v1684749326/samples/people/boy-snow-hoodie.jpg",
                     UserId = new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7")
                 },
                 new Product()
                 {
-                    ProductId = new Guid("c3e3c66c-c1d6-46f9-a725-9f24049652fd"),
+                    ProductId = Guid.NewGuid(),
                     ProductName = "Electric Iron",
                     Description = "Dry Electric Iron - DII255",
                     Price = 5800,
                     Quantity = 10,
                     BrandName = "DII255",
-                    ProductImage = "",
+                    ProductImage = "https://res.cloudinary.com/dcphruz6h/image/upload/v1684749330/samples/ecommerce/accessories-bag.jpg",
                     UserId = new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7")
                 },
                 new Product()
                 {
-                    ProductId = new Guid("c3e3c66c-c1d6-46f9-a725-9f24049652fd"),
+                    ProductId = Guid.NewGuid(),
                     ProductName = "Plain Tshirt",
                     Description = "Legends are born in March premium class T-shirt",
                     Price = 5000,
                     Quantity = 10,
                     BrandName = "Xcrux",
-                    ProductImage = "",
+                    ProductImage = "https://res.cloudinary.com/dcphruz6h/image/upload/v1684749330/samples/ecommerce/accessories-bag.jpg",
                     UserId = new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7")
                 },
                 new Product()
                 {
-                    ProductId = new Guid("c3e3c66c-c1d6-46f9-a725-9f24049652fd"),
+                    ProductId = Guid.NewGuid(),
                     ProductName = "Plain Men's T-shirts Combo of 3",
                     Description = "Loius Vuitton Beenie (red, yellow, black)",
                     Price = 6500,
                     Quantity = 10,
                     BrandName = "Grey Tshirt Store",
-                    ProductImage = "",
+                    ProductImage = "https://res.cloudinary.com/dcphruz6h/image/upload/v1684749329/samples/ecommerce/leather-bag-gray.jpg",
                     UserId = new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7")
                 },
                 new Product()
                 {
-                    ProductId = new Guid("c3e3c66c-c1d6-46f9-a725-9f24049652fd"),
+                    ProductId = Guid.NewGuid(),
                     ProductName = "Nivea Perfect & Radiant",
                     Description = "NIVEA Perfect & Radiant 3 In 1 Face Cleanser " +
                     "For Women - 150ml",
                     Price = 15000,
                     Quantity = 10,
                     BrandName = "Nivea",
-                    ProductImage = "",
+                    ProductImage = "https://res.cloudinary.com/dcphruz6h/image/upload/v1684749329/samples/ecommerce/leather-bag-gray.jpg",
                     UserId = new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7")
                 },
                 new Product()
                 {
-                    ProductId = new Guid("c3e3c66c-c1d6-46f9-a725-9f24049652fd"),
+                    ProductId = Guid.NewGuid(),
                     ProductName = "Jameson Black",
                     Description = "Jameson Black Barrel 7",
                     Price = 16085,
                     Quantity = 10,
                     BrandName = "Jameson Black",
-                    ProductImage = "",
+                    ProductImage = "https://res.cloudinary.com/dcphruz6h/image/upload/v1684749330/samples/ecommerce/accessories-bag.jpg",
                     UserId = new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7")
                 },
                 new Product()
                 {
-                    ProductId = new Guid("c3e3c66c-c1d6-46f9-a725-9f24049652fd"),
+                    ProductId = Guid.NewGuid(),
                     ProductName = "Coca-cola",
                     Description = "Coca-cola Drink - 50cl P",
                     Price = 1900,
                     Quantity = 10,
                     BrandName = "Coca-cola",
-                    ProductImage = "",
+                    ProductImage = "https://res.cloudinary.com/dcphruz6h/image/upload/v1684749330/samples/ecommerce/accessories-bag.jpg",
                     UserId = new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7")
                 },
                 new Product()
                 {
-                    ProductId = new Guid("c3e3c66c-c1d6-46f9-a725-9f24049652fd"),
+                    ProductId = Guid.NewGuid(),
                     ProductName = "Absolut Vodka",
                     Description = "Absolut Vodka Vanilla 1L",
                     Price = 6000,
                     Quantity = 5,
                     BrandName = "Absolut",
-                    ProductImage = "",
+                    ProductImage = "https://res.cloudinary.com/dcphruz6h/image/upload/v1684749344/cld-sample-4.jpg",
                     UserId = new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7")
                 },
                 new Product()
                 {
-                    ProductId = new Guid("c3e3c66c-c1d6-46f9-a725-9f24049652fd"),
+                    ProductId = Guid.NewGuid(),
                     ProductName = "Maltina Classic",
                     Description = "Maltina Classic Can 33CL",
                     Price = 5400,
                     Quantity = 24,
                     BrandName = "Maltina",
-                    ProductImage = "",
+                    ProductImage = "https://res.cloudinary.com/dcphruz6h/image/upload/v1684749344/cld-sample-4.jpg",
                     UserId = new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7")
                 },
                 new Product()
                 {
-                    ProductId = new Guid("c3e3c66c-c1d6-46f9-a725-9f24049652fd"),
+                    ProductId = Guid.NewGuid(),
                     ProductName = "Harpic Cleaner",
                     Description = "Harpic Toilet Cleaner: M",
                     Price = 1800,
                     Quantity = 14,
                     BrandName = "Harpic",
-                    ProductImage = "",
+                    ProductImage = "https://res.cloudinary.com/dcphruz6h/image/upload/v1684749344/cld-sample-4.jpg",
                     UserId = new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7")
                 },
                 new Product()
                 {
-                    ProductId = new Guid("c3e3c66c-c1d6-46f9-a725-9f24049652fd"),
+                    ProductId = Guid.NewGuid(),
                     ProductName = "Monster drink",
                     Description = "Monster Can Green 44cl",
                     Price = 11000,
                     Quantity = 14,
                     BrandName = "Monster",
-                    ProductImage = "",
+                    ProductImage = "https://res.cloudinary.com/dcphruz6h/image/upload/v1684749344/cld-sample-4.jpg",
                     UserId = new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7")
                 },
                 new Product()
                 {
-                    ProductId = new Guid("c3e3c66c-c1d6-46f9-a725-9f24049652fd"),
+                    ProductId = Guid.NewGuid(),
                     ProductName = "Jameson Whiskey",
                     Description = "Jameson Irish Whiskey",
                     Price = 10500,
                     Quantity = 10,
                     BrandName = "Jameson",
-                    ProductImage = "",
+                    ProductImage = "https://res.cloudinary.com/dcphruz6h/image/upload/v1684749344/cld-sample-4.jpg",
+                    UserId = new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7")
+                },
+                new Product()
+                {
+                    ProductId = Guid.NewGuid(),
+                    ProductName = "New balance sneakers",
+                    Description = "White soled, high new balance",
+                    Price = 15000,
+                    Quantity = 10,
+                    BrandName = "New Balance",
+                    ProductImage = "https://res.cloudinary.com/dcphruz6h/image/upload/v1684749344/cld-sample-5.jpg",
+                    UserId = new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7")
+                },
+                new Product()
+                {
+                    ProductId = Guid.NewGuid(),
+                    ProductName = "Air Jordan II",
+                    Description = "White Air Jordan II",
+                    Price = 55500,
+                    Quantity = 10,
+                    BrandName = "Nike",
+                    ProductImage = "https://res.cloudinary.com/dcphruz6h/image/upload/v1684749344/cld-sample-5.jpg",
                     UserId = new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7")
                 }
             );

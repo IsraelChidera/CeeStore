@@ -17,7 +17,7 @@ namespace CeeStore.DAL.Entities
         public int Quantity { get; set; }
         public string BrandName { get; set; }
 
-        public string? ProductImage { get; set; }       
+        public string ProductImage { get; set; }       
 
         [ForeignKey(nameof(AppUser))]
         public Guid UserId { get; set; }

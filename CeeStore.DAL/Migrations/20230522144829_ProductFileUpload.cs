@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CeeStore.DAL.Migrations
 {
-    public partial class InitialMigrationsWithNewSeededAdmin : Migration
+    public partial class ProductFileUpload : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -227,7 +227,7 @@ namespace CeeStore.DAL.Migrations
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     BrandName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ProductImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProductImage = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserId1 = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
@@ -297,17 +297,35 @@ namespace CeeStore.DAL.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "1131deae-af94-4b63-9d70-56d3aa5c5fff", "3677517e-2153-4e91-ac95-48762a4daed0", "Seller", "SELLER" });
+                values: new object[,]
+                {
+                    { "35ca7534-83e0-4bae-8307-ea4be45984b7", "fcd76efd-24ae-4d8c-9ddf-abd13586a9fa", "Buyer", "BUYER" },
+                    { "35e7a0b6-7a90-45b2-9c2f-271817ffe42f", "13e7ac1c-0e9c-4e33-ad7c-d238b4088dfe", "Admin", "ADMIN" },
+                    { "acef6776-83d4-425b-aabc-fc32e1fc2075", "03e8f342-0c3a-4e91-84d1-498e34cda185", "Seller", "SELLER" }
+                });
 
             migrationBuilder.InsertData(
-                table: "AspNetRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "4be63873-7699-4c51-b12d-06e387b6ea33", "7689241e-89a4-4e3e-a21c-9badddeb4c7c", "Buyer", "BUYER" });
-
-            migrationBuilder.InsertData(
-                table: "AspNetRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "737dc9f1-484e-4282-b1ee-1c43f9aba0a8", "6b9d04ed-b538-43ca-a88e-033a845716c6", "Admin", "ADMIN" });
+                table: "Products",
+                columns: new[] { "ProductId", "BrandName", "Description", "Price", "ProductImage", "ProductName", "Quantity", "UserId", "UserId1" },
+                values: new object[,]
+                {
+                    { new Guid("162d1534-8a65-44c8-89df-2c0730864f2b"), "Absolut", "Absolut Vodka Vanilla 1L", 6000m, "https://res.cloudinary.com/dcphruz6h/image/upload/v1684749344/cld-sample-4.jpg", "Absolut Vodka", 5, new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7"), null },
+                    { new Guid("1d845433-2784-4ddb-be79-39e17377136c"), "Nivea", "NIVEA Perfect & Radiant 3 In 1 Face Cleanser For Women - 150ml", 15000m, "https://res.cloudinary.com/dcphruz6h/image/upload/v1684749329/samples/ecommerce/leather-bag-gray.jpg", "Nivea Perfect & Radiant", 10, new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7"), null },
+                    { new Guid("2cdeb67f-3abb-45ad-9453-a6f441200646"), "Jameson Black", "Jameson Black Barrel 7", 16085m, "https://res.cloudinary.com/dcphruz6h/image/upload/v1684749330/samples/ecommerce/accessories-bag.jpg", "Jameson Black", 10, new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7"), null },
+                    { new Guid("406b788c-b52f-4553-8f27-97a547045841"), "Jameson", "Jameson Irish Whiskey", 10500m, "https://res.cloudinary.com/dcphruz6h/image/upload/v1684749344/cld-sample-4.jpg", "Jameson Whiskey", 10, new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7"), null },
+                    { new Guid("44b7062d-7ba5-4f9e-8e17-a55dc88299cb"), "Coca-cola", "Coca-cola Drink - 50cl P", 1900m, "https://res.cloudinary.com/dcphruz6h/image/upload/v1684749330/samples/ecommerce/accessories-bag.jpg", "Coca-cola", 10, new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7"), null },
+                    { new Guid("5987f77d-3ddc-4a9e-b1e4-2d79e986da83"), "DII255", "Dry Electric Iron - DII255", 5800m, "https://res.cloudinary.com/dcphruz6h/image/upload/v1684749330/samples/ecommerce/accessories-bag.jpg", "Electric Iron", 10, new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7"), null },
+                    { new Guid("68ba7ee0-5e59-46e0-a524-496a68bb0b09"), "Monster", "Monster Can Green 44cl", 11000m, "https://res.cloudinary.com/dcphruz6h/image/upload/v1684749344/cld-sample-4.jpg", "Monster drink", 14, new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7"), null },
+                    { new Guid("6eae2eab-7367-4eb6-af47-7932690e577c"), "Nike", "White Air Jordan II", 55500m, "https://res.cloudinary.com/dcphruz6h/image/upload/v1684749344/cld-sample-5.jpg", "Air Jordan II", 10, new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7"), null },
+                    { new Guid("7a0aaaea-d2ba-4cc1-86dd-f01c5343c91d"), "Maltina", "Maltina Classic Can 33CL", 5400m, "https://res.cloudinary.com/dcphruz6h/image/upload/v1684749344/cld-sample-4.jpg", "Maltina Classic", 24, new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7"), null },
+                    { new Guid("835bb68d-9e09-4b81-b1ed-3925a1db68af"), "Glover Sport Wears", "Red Arsenal T-shirt of all sizes (S,M,L,Xl,XXL)", 8500m, "https://res.cloudinary.com/dcphruz6h/image/upload/v1684749344/cld-sample-5.jpg", "Arsenal T-shirt", 8, new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7"), null },
+                    { new Guid("91c22eb3-8e1c-4a39-bd5f-299dcad5c4c1"), "Xivex Wears", "Multi-colored vintage wears", 12500m, "https://res.cloudinary.com/dcphruz6h/image/upload/v1684749344/cld-sample-5.jpg", "Vintage wears", 10, new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7"), null },
+                    { new Guid("b56c5e4c-9307-47af-9ebe-3d4161705cba"), "Xcrux", "Legends are born in March premium class T-shirt", 5000m, "https://res.cloudinary.com/dcphruz6h/image/upload/v1684749330/samples/ecommerce/accessories-bag.jpg", "Plain Tshirt", 10, new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7"), null },
+                    { new Guid("c3e3c66c-c1d6-46f9-a725-9f24049652fd"), "X-G", "Black winter hoodies (S,M,L,Xl,XXL)", 14500m, "https://res.cloudinary.com/dcphruz6h/image/upload/v1684749326/samples/people/boy-snow-hoodie.jpg", "Spring Hoodie", 5, new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7"), null },
+                    { new Guid("db2f4e29-9e36-4cc9-855c-176ff930c37a"), "Harpic", "Harpic Toilet Cleaner: M", 1800m, "https://res.cloudinary.com/dcphruz6h/image/upload/v1684749344/cld-sample-4.jpg", "Harpic Cleaner", 14, new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7"), null },
+                    { new Guid("db3b7be1-37a3-40d3-b363-5ae91cf7b47c"), "New Balance", "White soled, high new balance", 15000m, "https://res.cloudinary.com/dcphruz6h/image/upload/v1684749344/cld-sample-5.jpg", "New balance sneakers", 10, new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7"), null },
+                    { new Guid("ee67a92c-a8e2-44a1-8e50-14a59d718f84"), "Grey Tshirt Store", "Loius Vuitton Beenie (red, yellow, black)", 6500m, "https://res.cloudinary.com/dcphruz6h/image/upload/v1684749329/samples/ecommerce/leather-bag-gray.jpg", "Plain Men's T-shirts Combo of 3", 10, new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7"), null }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

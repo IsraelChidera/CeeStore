@@ -258,6 +258,7 @@ namespace CeeStore.DAL.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("ProductImage")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProductName")
@@ -278,6 +279,184 @@ namespace CeeStore.DAL.Migrations
                     b.HasIndex("UserId1");
 
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            ProductId = new Guid("91c22eb3-8e1c-4a39-bd5f-299dcad5c4c1"),
+                            BrandName = "Xivex Wears",
+                            Description = "Multi-colored vintage wears",
+                            Price = 12500m,
+                            ProductImage = "https://res.cloudinary.com/dcphruz6h/image/upload/v1684749344/cld-sample-5.jpg",
+                            ProductName = "Vintage wears",
+                            Quantity = 10,
+                            UserId = new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7")
+                        },
+                        new
+                        {
+                            ProductId = new Guid("835bb68d-9e09-4b81-b1ed-3925a1db68af"),
+                            BrandName = "Glover Sport Wears",
+                            Description = "Red Arsenal T-shirt of all sizes (S,M,L,Xl,XXL)",
+                            Price = 8500m,
+                            ProductImage = "https://res.cloudinary.com/dcphruz6h/image/upload/v1684749344/cld-sample-5.jpg",
+                            ProductName = "Arsenal T-shirt",
+                            Quantity = 8,
+                            UserId = new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7")
+                        },
+                        new
+                        {
+                            ProductId = new Guid("c3e3c66c-c1d6-46f9-a725-9f24049652fd"),
+                            BrandName = "X-G",
+                            Description = "Black winter hoodies (S,M,L,Xl,XXL)",
+                            Price = 14500m,
+                            ProductImage = "https://res.cloudinary.com/dcphruz6h/image/upload/v1684749326/samples/people/boy-snow-hoodie.jpg",
+                            ProductName = "Spring Hoodie",
+                            Quantity = 5,
+                            UserId = new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7")
+                        },
+                        new
+                        {
+                            ProductId = new Guid("5987f77d-3ddc-4a9e-b1e4-2d79e986da83"),
+                            BrandName = "DII255",
+                            Description = "Dry Electric Iron - DII255",
+                            Price = 5800m,
+                            ProductImage = "https://res.cloudinary.com/dcphruz6h/image/upload/v1684749330/samples/ecommerce/accessories-bag.jpg",
+                            ProductName = "Electric Iron",
+                            Quantity = 10,
+                            UserId = new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7")
+                        },
+                        new
+                        {
+                            ProductId = new Guid("b56c5e4c-9307-47af-9ebe-3d4161705cba"),
+                            BrandName = "Xcrux",
+                            Description = "Legends are born in March premium class T-shirt",
+                            Price = 5000m,
+                            ProductImage = "https://res.cloudinary.com/dcphruz6h/image/upload/v1684749330/samples/ecommerce/accessories-bag.jpg",
+                            ProductName = "Plain Tshirt",
+                            Quantity = 10,
+                            UserId = new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7")
+                        },
+                        new
+                        {
+                            ProductId = new Guid("ee67a92c-a8e2-44a1-8e50-14a59d718f84"),
+                            BrandName = "Grey Tshirt Store",
+                            Description = "Loius Vuitton Beenie (red, yellow, black)",
+                            Price = 6500m,
+                            ProductImage = "https://res.cloudinary.com/dcphruz6h/image/upload/v1684749329/samples/ecommerce/leather-bag-gray.jpg",
+                            ProductName = "Plain Men's T-shirts Combo of 3",
+                            Quantity = 10,
+                            UserId = new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7")
+                        },
+                        new
+                        {
+                            ProductId = new Guid("1d845433-2784-4ddb-be79-39e17377136c"),
+                            BrandName = "Nivea",
+                            Description = "NIVEA Perfect & Radiant 3 In 1 Face Cleanser For Women - 150ml",
+                            Price = 15000m,
+                            ProductImage = "https://res.cloudinary.com/dcphruz6h/image/upload/v1684749329/samples/ecommerce/leather-bag-gray.jpg",
+                            ProductName = "Nivea Perfect & Radiant",
+                            Quantity = 10,
+                            UserId = new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7")
+                        },
+                        new
+                        {
+                            ProductId = new Guid("2cdeb67f-3abb-45ad-9453-a6f441200646"),
+                            BrandName = "Jameson Black",
+                            Description = "Jameson Black Barrel 7",
+                            Price = 16085m,
+                            ProductImage = "https://res.cloudinary.com/dcphruz6h/image/upload/v1684749330/samples/ecommerce/accessories-bag.jpg",
+                            ProductName = "Jameson Black",
+                            Quantity = 10,
+                            UserId = new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7")
+                        },
+                        new
+                        {
+                            ProductId = new Guid("44b7062d-7ba5-4f9e-8e17-a55dc88299cb"),
+                            BrandName = "Coca-cola",
+                            Description = "Coca-cola Drink - 50cl P",
+                            Price = 1900m,
+                            ProductImage = "https://res.cloudinary.com/dcphruz6h/image/upload/v1684749330/samples/ecommerce/accessories-bag.jpg",
+                            ProductName = "Coca-cola",
+                            Quantity = 10,
+                            UserId = new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7")
+                        },
+                        new
+                        {
+                            ProductId = new Guid("162d1534-8a65-44c8-89df-2c0730864f2b"),
+                            BrandName = "Absolut",
+                            Description = "Absolut Vodka Vanilla 1L",
+                            Price = 6000m,
+                            ProductImage = "https://res.cloudinary.com/dcphruz6h/image/upload/v1684749344/cld-sample-4.jpg",
+                            ProductName = "Absolut Vodka",
+                            Quantity = 5,
+                            UserId = new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7")
+                        },
+                        new
+                        {
+                            ProductId = new Guid("7a0aaaea-d2ba-4cc1-86dd-f01c5343c91d"),
+                            BrandName = "Maltina",
+                            Description = "Maltina Classic Can 33CL",
+                            Price = 5400m,
+                            ProductImage = "https://res.cloudinary.com/dcphruz6h/image/upload/v1684749344/cld-sample-4.jpg",
+                            ProductName = "Maltina Classic",
+                            Quantity = 24,
+                            UserId = new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7")
+                        },
+                        new
+                        {
+                            ProductId = new Guid("db2f4e29-9e36-4cc9-855c-176ff930c37a"),
+                            BrandName = "Harpic",
+                            Description = "Harpic Toilet Cleaner: M",
+                            Price = 1800m,
+                            ProductImage = "https://res.cloudinary.com/dcphruz6h/image/upload/v1684749344/cld-sample-4.jpg",
+                            ProductName = "Harpic Cleaner",
+                            Quantity = 14,
+                            UserId = new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7")
+                        },
+                        new
+                        {
+                            ProductId = new Guid("68ba7ee0-5e59-46e0-a524-496a68bb0b09"),
+                            BrandName = "Monster",
+                            Description = "Monster Can Green 44cl",
+                            Price = 11000m,
+                            ProductImage = "https://res.cloudinary.com/dcphruz6h/image/upload/v1684749344/cld-sample-4.jpg",
+                            ProductName = "Monster drink",
+                            Quantity = 14,
+                            UserId = new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7")
+                        },
+                        new
+                        {
+                            ProductId = new Guid("406b788c-b52f-4553-8f27-97a547045841"),
+                            BrandName = "Jameson",
+                            Description = "Jameson Irish Whiskey",
+                            Price = 10500m,
+                            ProductImage = "https://res.cloudinary.com/dcphruz6h/image/upload/v1684749344/cld-sample-4.jpg",
+                            ProductName = "Jameson Whiskey",
+                            Quantity = 10,
+                            UserId = new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7")
+                        },
+                        new
+                        {
+                            ProductId = new Guid("db3b7be1-37a3-40d3-b363-5ae91cf7b47c"),
+                            BrandName = "New Balance",
+                            Description = "White soled, high new balance",
+                            Price = 15000m,
+                            ProductImage = "https://res.cloudinary.com/dcphruz6h/image/upload/v1684749344/cld-sample-5.jpg",
+                            ProductName = "New balance sneakers",
+                            Quantity = 10,
+                            UserId = new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7")
+                        },
+                        new
+                        {
+                            ProductId = new Guid("6eae2eab-7367-4eb6-af47-7932690e577c"),
+                            BrandName = "Nike",
+                            Description = "White Air Jordan II",
+                            Price = 55500m,
+                            ProductImage = "https://res.cloudinary.com/dcphruz6h/image/upload/v1684749344/cld-sample-5.jpg",
+                            ProductName = "Air Jordan II",
+                            Quantity = 10,
+                            UserId = new Guid("06dd95bf-2c94-4e3d-8424-57d912f135d7")
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -309,22 +488,22 @@ namespace CeeStore.DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "737dc9f1-484e-4282-b1ee-1c43f9aba0a8",
-                            ConcurrencyStamp = "6b9d04ed-b538-43ca-a88e-033a845716c6",
+                            Id = "35e7a0b6-7a90-45b2-9c2f-271817ffe42f",
+                            ConcurrencyStamp = "13e7ac1c-0e9c-4e33-ad7c-d238b4088dfe",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "4be63873-7699-4c51-b12d-06e387b6ea33",
-                            ConcurrencyStamp = "7689241e-89a4-4e3e-a21c-9badddeb4c7c",
+                            Id = "35ca7534-83e0-4bae-8307-ea4be45984b7",
+                            ConcurrencyStamp = "fcd76efd-24ae-4d8c-9ddf-abd13586a9fa",
                             Name = "Buyer",
                             NormalizedName = "BUYER"
                         },
                         new
                         {
-                            Id = "1131deae-af94-4b63-9d70-56d3aa5c5fff",
-                            ConcurrencyStamp = "3677517e-2153-4e91-ac95-48762a4daed0",
+                            Id = "acef6776-83d4-425b-aabc-fc32e1fc2075",
+                            ConcurrencyStamp = "03e8f342-0c3a-4e91-84d1-498e34cda185",
                             Name = "Seller",
                             NormalizedName = "SELLER"
                         });
