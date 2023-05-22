@@ -14,7 +14,7 @@ namespace CeeStore.BLL.ServicesContract
 
         Task<List<CreatePrductRequestDto>> GetProductAsync(SearchTermDto searchProductRequest);
 
-        Task<IEnumerable<CreatePrductRequestDto>> GetAllProductsAsync();
+        Task<IEnumerable<ProductDto>> GetAllProductsAsync();
 
         Task<List<ProductResponseDto>> GetSellerProductAsync();
 

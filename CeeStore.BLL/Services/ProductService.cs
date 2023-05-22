@@ -197,11 +197,11 @@ namespace CeeStore.BLL.Services
             return "Product deleted successfully";
         }
 
-        public async Task<IEnumerable<CreatePrductRequestDto>> GetAllProductsAsync()
+        public async Task<IEnumerable<ProductDto>> GetAllProductsAsync()
         {
             var allProducts = await _productRepo.GetAllAsync();
 
-            var products = _mapper.Map<List<CreatePrductRequestDto>>(allProducts);
+            var products = _mapper.Map<List<ProductDto>>(allProducts);
 
             return products;
         }
