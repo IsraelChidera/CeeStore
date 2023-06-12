@@ -259,12 +259,27 @@ namespace CeeStore.BLL.Services
                 throw new Exception("Product does not exist");
             }
 
+            if (productRequest.ImageFile == null || productRequest.ImageFile.Length == 0)
+            {
+                throw new Exception("No file uploaded");
+            }
+
+            var uploadParams = new ImageUploadParams
+            {
+                File = new FileDescription(productRequest.ImageFile.FileName, productRequest.ImageFile.OpenReadStream()),
+                Transformation = new Transformation().Crop("limit").Width(1000).Height(1000)
+            };
+
+            var result = _cloudinaryService.UploadImage(uploadParams);
+
+
             var product = _mapper.Map(productRequest, productExists);
 
-            _fileService.DeleteImage(productExists.ProductImage);
+            /*_fileService.DeleteImage(productExists.ProductImage);
             var file = _fileService.UploadImage(productRequest.ImageFile);
 
-            product.ProductImage = file.Result;
+            product.ProductImage = file.Result;*/
+            product.ProductImage = result.Url.ToString();
 
             await _productRepo.UpdateAsync(product);
             await _unitOfWork.SaveChangesAsync();
